@@ -1,61 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IBL 2023 season stats</title>
-  <script type="text/javascript" language="javascript" charset="utf8" src="/DataTables/jQuery-3.6.0.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="./DataTables/jquery.dataTables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="./DataTables/fixedColumns.dataTables.min.css"/>
+  <title>IBL stats by BoxOut</title>
   <style>
-    h1 {text-align: center;}
+    h1 {text-align: right;}
+    h2 {text-align: right;}
+    h3 {text-align: right;}
     th, td { white-space: nowrap; }
-    div.dataTables_wrapper {
-        width: 1000px;
-        margin: 0 auto;
-    }
   </style>
-  <script type="text/javascript" language="javascript" charset="utf8" src="./DataTables/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" language="javascript" charset="utf8" src="./DataTables/dataTables.fixedColumns.min.js"></script>
 
 
 </head>
 <body>
-  <h1><a href="BoxscorePLSEASON.html">Player Boxscore</a></h1>
-  <h1><a href="BoxscoreTMSEASON.html">Team Boxscore</a></h1>
-  <h1>IBL player 2023 season stats</h1>
-  <div id="container">
-  </div>
-  <h1>IBL team 2023 season stats</h1>
-  <div id="container2">
-  </div>
-  <script type="text/javascript" language="javascript" charset="utf8">
-  $(document).ready(function() {
-    $('#container').load('BoxscorePLSEASON.html', function() {
-      $('#BOXPLSEASON').dataTable( {
-        scrollY:        "400px",
-        scrollX:        true,
-        scrollCollapse: true,
-        paging:         false,
-        fixedColumns: {
-          leftColumns:2,
-          rightColumns:0
-        }
-      });
-    });
-  });
-  $(document).ready(function() {
-    $('#container2').load('BoxscoreTMSEASON.html', function() {
-      $('#BOXTMSEASON').dataTable( {
-        scrollY:        "400px",
-        scrollX:        true,
-        scrollCollapse: true,
-        paging:         false,
-        fixedColumns: {
-          leftColumns:1,
-          rightColumns:0
-        }
-      });
-    });
-  });
-  </script>
+  <h1>BoxOut present IBL Stats</h1>
+  <h2>2024</h2>
+  <h3><a href="2024/BOXPL.html">Player Boxscore</a></h3>
+  <h3><a href="2024/BOXTM.html">Team Boxscore</a></h3>
 </body>
 </html>
