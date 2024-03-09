@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IBL 2024 player ON/OFF season stats</title>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jQuery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../DataTables/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../DataTables/fixedColumns.dataTables.min.css"/>
+  <style>
+    h1 {text-align: center;}
+    th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        width: 1000px;
+        margin: 0 auto;
+    }
+  </style>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
+
+
+</head>
+<body>
+  <h1>IBL 2024 player ON/OFF season stats</h1>
+  <div id="container">
+  </div>
+  <script type="text/javascript" language="javascript" charset="utf8">
+  $(document).ready(function() {
+    $('#container').load('PlayerONOFF.html', function() {
+      $('#PLONOFF').dataTable( {
+        scrollY:        "400px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        fixedColumns: {
+          leftColumns:2,
+          rightColumns:0
+        }
+      });
+    });
+  });
+  </script>
+</body>
+</html>
