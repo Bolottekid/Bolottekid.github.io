@@ -1,7 +1,7 @@
 const minEl = document.querySelector('#min');
 const maxEl = document.querySelector('#max');
 
-const table = new DataTable('#example');
+const table = new DataTable('#container');
 
 // Custom range filtering function
 table.search.fixed('range', function (searchStr, data, index) {
