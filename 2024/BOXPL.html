@@ -55,7 +55,7 @@
   const minEl = document.querySelector('#min');
   const maxEl = document.querySelector('#max');
 
-  var table = new dataTable('#BOXPLSEASON');
+  const table = $('#BOXPLSEASON').dataTable();
 
   // Custom range filtering function
   table.search.fixed('range', function (searchStr, data, index) {
