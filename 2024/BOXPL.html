@@ -15,12 +15,25 @@
   </style>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.js"></script>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/CustomFilterRange.js"></script>
 
 
 </head>
 <body>
   <h1>IBL 2024 player season stats</h1>
   <div id="container">
+    <table class="inputs">
+      <tbody>
+        <tr>
+          <td>Minimum minutes per game:</td>
+          <td><input type="text" id="min" name="min"></td>
+        </tr>
+        <tr>
+          <td>Maximum minutes per game:</td>
+          <td><input type="text" id="max" name="max"></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <script type="text/javascript" language="javascript" charset="utf8">
   $(document).ready(function() {
