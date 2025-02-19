@@ -38,7 +38,7 @@
   </div>
   <script type="text/javascript" language="javascript" charset="utf8">
   $(document).ready(function() {
-  const table = $('#container').load('BoxscorePLSEASON.html', function() {
+  $('#container').load('BoxscorePLSEASON.html', function() {
       $('#BOXPLSEASON').dataTable( {
         scrollY:        "400px",
         scrollX:        true,
@@ -53,6 +53,8 @@
 
   const minEl = document.querySelector('#min');
   const maxEl = document.querySelector('#max');
+
+  const table = new $('#BOXPLSEASON').dataTable()
 
   // Custom range filtering function
   table.search.fixed('range', function (searchStr, data, index) {
