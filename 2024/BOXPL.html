@@ -50,7 +50,6 @@
         }
       });
     });
-  });
 
   const minEl = document.querySelector('#min');
   const maxEl = document.querySelector('#max');
@@ -71,14 +70,15 @@
       }
 
       return false;
-  });
+    });
 
   // Changes to the inputs will trigger a redraw to update the table
   minEl.addEventListener('input', function () {
       table.draw();
-  });
+    });
   maxEl.addEventListener('input', function () {
       table.draw();
+    });
   });
 
   </script>
