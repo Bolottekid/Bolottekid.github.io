@@ -5,7 +5,6 @@
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jQuery-3.6.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../DataTables/jquery.dataTables.min.css"/>
   <link rel="stylesheet" type="text/css" href="../DataTables/fixedColumns.dataTables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="../DataTables/select2.min.css"/>
   <style>
     h1 {text-align: center;}
     th, td { white-space: nowrap; }
@@ -16,7 +15,6 @@
   </style>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/select2.min.js"></script>
 
 
 </head>
@@ -59,34 +57,31 @@
               rightColumns:0
             },
             initComplete: function () {
-              var api = this.api();
+              this.api()
+                  .columns()
+                  .every(function () {
+                      var column = this;
 
-              api.columns().every(function () {
-                  var column = this;
-                  var title = $(column.header()).text().trim();
-                  var safeTitle = title.replace(/[^a-zA-Z0-9_-]/g, '-');
+                      // Create select element and listener
+                      var select = $('<select><option value=""></option></select>')
+                          .appendTo($(column.footer()).empty())
+                          .on('change', function () {
+                              column
+                                  .search($(this).val(), {exact: true})
+                                  .draw();
+                          });
 
-                  var select = $('<select id="' + safeTitle + '" class="select2" multiple></select>')
-                      .appendTo($(column.footer()).empty())
-                      .on('change', function () {
-                          var values = $(this).val() || [];
-                          var searchVal = values.length ? values.map($.fn.dataTable.util.escapeRegex).join('|') : '';
-                          column.search(searchVal ? '^(' + searchVal + ')$' : '', true, false).draw();
-                      });
-
-                  column.data().unique().sort().each(function (d, j) {
-                      select.append('<option value="' + d + '">' + d + '</option>');
+                      // Add list of options
+                      column
+                          .data()
+                          .unique()
+                          .sort()
+                          .each(function (d, j) {
+                              select.append(
+                                  '<option value="' + d + '">' + d + '</option>'
+                              );
+                          });
                   });
-
-                  // Initialize Select2
-                  select.select2({
-                      multiple: true,
-                      closeOnSelect: false,
-                      placeholder: "Filter " + title
-                  });
-
-                  select.val(null).trigger('change');
-              });
             }
           });
 
