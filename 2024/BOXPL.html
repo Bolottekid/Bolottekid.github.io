@@ -107,44 +107,44 @@
       });
       // Custom range filtering function
       $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-          var min = parseInt(minEl1.val(), 10);
-          var max = parseInt(maxEl1.val(), 10);
-          var range = parseFloat(data[index1]) || 0; // use data for the column
+          var min1 = parseInt(minEl1.val(), 10);
+          var max1 = parseInt(maxEl1.val(), 10);
+          var range1 = parseFloat(data[index1]) || 0; // use data for the column
 
           if (
-              (isNaN(min) && isNaN(max)) ||
-              (isNaN(min) && range <= max) ||
-              (min <= range && isNaN(max)) ||
-              (min <= range && range <= max)
+              (isNaN(min1) && isNaN(max1)) ||
+              (isNaN(min1) && range <= max1) ||
+              (min1 <= range1 && isNaN(max1)) ||
+              (min1 <= range1 && range1 <= max1)
           ) {
               return true;
           }
 
           return false;
       });
-      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-          var min = parseInt(minEl2.val(), 10);
-          var max = parseInt(maxEl2.val(), 10);
-          var range = parseFloat(data[index2]) || 0; // use data for the column
-
-          if (
-              (isNaN(min) && isNaN(max)) ||
-              (isNaN(min) && range <= max) ||
-              (min <= range && isNaN(max)) ||
-              (min <= range && range <= max)
-          ) {
-              return true;
-          }
-
-          return false;
-      });
-
       // Changes to the inputs will trigger a redraw to update the table
       minEl1.on('input', function () {
           table.draw();
       });
       maxEl1.on('input', function () {
           table.draw();
+      });
+
+      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+        var min2 = parseInt(minEl2.val(), 10);
+        var max2 = parseInt(maxEl2.val(), 10);
+        var range2 = parseFloat(data[index2]) || 0; // use data for the column
+
+        if (
+          (isNaN(min2) && isNaN(max2)) ||
+          (isNaN(min2) && range <= max2) ||
+          (min2 <= range2 && isNaN(max2)) ||
+          (min2 <= range2 && range2 <= max2)
+        ) {
+          return true;
+        }
+
+        return false;
       });
       minEl2.on('input', function () {
           table.draw();
