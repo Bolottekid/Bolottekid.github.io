@@ -40,6 +40,8 @@
         </tr>
       </tbody>
     </table>
+    <div id="filter">
+    </div>
   </div>
   <div id="container">
   </div>
@@ -57,21 +59,14 @@
               rightColumns:0
             },
             initComplete: function () {
-              // Ensure tfoot exists
-              if (!$('#BOXPLSEASON tfoot').length) {
-                  $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
-                  $('#BOXPLSEASON thead th').each(function () {
-                      $('#BOXPLSEASON tfoot tr').append('<th></th>');
-                  });
-              }
-              this.api()
-                  .columns([0,1,2])
+            this.api()
+                  .columns([0,1,2,3])
                   .every(function () {
                       var column = this;
 
                       // Create select element and listener
                       var select = $('<select><option value=""></option></select>')
-                          .appendTo($(column.footer()).empty())
+                      .appendTo( $('.filter') )
                           .on('change', function () {
                               column
                                   .search($(this).val(), {exact: true})
