@@ -84,22 +84,19 @@
   $(document).ready(function() {
 
     $('#container').load('BoxscorePLSEASON.html', function() {
+      $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
+      $('#BOXPLSEASON thead th').clone().appendTo($("#BOXPLSEASON tfoot tr")) ;
       var table = $('#BOXPLSEASON').DataTable( {
             scrollY:        "400px",
             scrollX:        true,
             scrollCollapse: true,
             paging:         false,
+            searching:      false,
             fixedColumns: {
               leftColumns:2,
               rightColumns:0
             },
             initComplete: function () {
-              if (!$('#BOXPLSEASON tfoot').length) {
-                  $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
-                  $('#BOXPLSEASON thead th').each(function () {
-                      $('#BOXPLSEASON tfoot tr').append('<th></th>');
-                  });
-              }
 
               this.api()
               .columns([0,1,2,3])
