@@ -39,45 +39,45 @@
   <script type="text/javascript" language="javascript" charset="utf8">
   $(document).ready(function() {
 
-  var minEl = $('#min');
-  var maxEl = $('#max');
-  $('#container').load('BoxscorePLSEASON.html', function() {
-  $('#BOXPLSEASON').dataTable( {
-        scrollY:        "400px",
-        scrollX:        true,
-        scrollCollapse: true,
-        paging:         false,
-        fixedColumns: {
-          leftColumns:2,
-          rightColumns:0
-        }
+    var minEl = $('#min');
+    var maxEl = $('#max');
+    $('#container').load('BoxscorePLSEASON.html', function() {
+      $('#BOXPLSEASON').dataTable( {
+            scrollY:        "400px",
+            scrollX:        true,
+            scrollCollapse: true,
+            paging:         false,
+            fixedColumns: {
+              leftColumns:2,
+              rightColumns:0
+            }
+          });
+
+      // Custom range filtering function
+      $('#BOXPLSEASON').dataTable.ext.search.push('range', function (settings, data, dataIndex) {
+          var min = parseInt(minEl.val(), 10);
+          var max = parseInt(maxEl.val(), 10);
+          var range = parseFloat(data[32]) || 0; // use data for the age column
+
+          if (
+              (isNaN(min) && isNaN(max)) ||
+              (isNaN(min) && range <= max) ||
+              (min <= range && isNaN(max)) ||
+              (min <= range && range <= max)
+          ) {
+              return true;
+          }
+
+          return false;
       });
 
-  // Custom range filtering function
-  $('#BOXPLSEASON').dataTable.ext.search.push('range', function (settings, data, dataIndex) {
-      var min = parseInt(minEl.val(), 10);
-      var max = parseInt(maxEl.val(), 10);
-      var range = parseFloat(data[32]) || 0; // use data for the age column
-
-      if (
-          (isNaN(min) && isNaN(max)) ||
-          (isNaN(min) && range <= max) ||
-          (min <= range && isNaN(max)) ||
-          (min <= range && range <= max)
-      ) {
-          return true;
-      }
-
-      return false;
-  });
-
-  // Changes to the inputs will trigger a redraw to update the table
-  minEl.on('input', function () {
-      table.draw();
-  });
-  maxEl.on('input', function () {
-      table.draw();
-  });
+      // Changes to the inputs will trigger a redraw to update the table
+      minEl.on('input', function () {
+          table.draw();
+      });
+      maxEl.on('input', function () {
+          table.draw();
+      });
     });
   });
 
