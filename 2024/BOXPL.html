@@ -100,7 +100,7 @@
             },
             initComplete: function () {
               count = 0;
-              this.api().columns().every( function () {
+              this.api().columns([0,1,2,3]).every( function () {
                 var title = this.header();
                 //replace spaces with dashes
                 title = $(title).html().replace(/[\W]/g, '-');
