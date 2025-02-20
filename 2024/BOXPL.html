@@ -59,7 +59,7 @@
 
       var minEl = $('#min1');
       var maxEl = $('#max1');
-      var stat = $("stat1").value;
+      var stat = $('#stat1').value;
       // Custom range filtering function
       $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
           var min = parseInt(minEl.val(), 10);
