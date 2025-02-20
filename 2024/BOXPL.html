@@ -60,6 +60,13 @@
             },
             initComplete: function () {
               var count = 0;
+              // Ensure tfoot exists
+              if (!$('#BOXPLSEASON tfoot').length) {
+                  $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
+                  $('#BOXPLSEASON thead th').each(function () {
+                      $('#BOXPLSEASON tfoot tr').append('<th></th>');
+                  });
+              }
               this.api().columns().every(function () {
                 var title = $(this.header()).text().trim();
                 var safeTitle = title.replace(/[^a-zA-Z0-9_-]/g, '-'); // Ensure it's a valid ID
