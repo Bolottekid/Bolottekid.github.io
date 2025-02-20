@@ -16,15 +16,15 @@
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
   <script type="text/javascript" language="javascript" charset="utf8">
-  var minEl = document.querySelector('#min');
-  var maxEl = document.querySelector('#max');
+  var minEl = $('#min');
+  var maxEl = $('#max');
 
   var table = $('#BOXPLSEASON').dataTable();
 
   // Custom range filtering function
   table.search.fixed('range', function (searchStr, data, index) {
-      var min = parseInt(minEl.value, 10);
-      var max = parseInt(maxEl.value, 10);
+      var min = parseInt(minEl.val(), 10);
+      var max = parseInt(maxEl.val(), 10);
       var range = parseFloat(data[32]) || 0; // use data for the age column
 
       if (
@@ -37,15 +37,15 @@
       }
 
       return false;
-    });
+  });
 
   // Changes to the inputs will trigger a redraw to update the table
-  minEl.addEventListener('input', function () {
+  minEl.on('input', function () {
       table.draw();
-    });
-  maxEl.addEventListener('input', function () {
+  });
+  maxEl.on('input', function () {
       table.draw();
-    });
+  });
   </script>
 
 
