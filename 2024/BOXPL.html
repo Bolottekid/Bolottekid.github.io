@@ -5,6 +5,7 @@
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jQuery-3.6.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../DataTables/jquery.dataTables.min.css"/>
   <link rel="stylesheet" type="text/css" href="../DataTables/fixedColumns.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../DataTables/select2.min.css"/>
   <style>
     h1 {text-align: center;}
     th, td { white-space: nowrap; }
@@ -23,6 +24,7 @@
   </style>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/select2.min.js"></script>
 
 
 </head>
@@ -97,30 +99,26 @@
               rightColumns:0
             },
             initComplete: function () {
+              var api = this.api();
 
-              this.api()
-              .columns([0,1,2,3])
+              api.columns([0,1,2,3]) // Adjust column indices as needed
               .every(function () {
                 var column = this;
+                var title = $(column.header()).text().trim();
 
-                // Create select element and listener
-                var select = $('<select><option value=""></option></select>')
+                var select = $('<label>' + title + ':</label> <select><option value="">All</option></select>')
                 .appendTo($(column.footer()).empty())
                 .on('change', function () {
-                  column
-                  .search($(this).val(), {exact: true})
-                  .draw();
+                  var val = $(this).val();
+                  column.search(val ? '^' + $.fn.dataTable.util.escapeRegex(val) + '$' : '', true, false).draw();
                 });
 
-                // Add list of options
                 column
                 .data()
                 .unique()
                 .sort()
                 .each(function (d, j) {
-                  select.append(
-                    '<option value="' + d + '">' + d + '</option>'
-                  );
+                  select.append('<option value="' + d + '">' + d + '</option>');
                 });
               });
             }
