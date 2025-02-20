@@ -57,8 +57,15 @@
               rightColumns:0
             },
             initComplete: function () {
+              // Ensure tfoot exists
+              if (!$('#BOXPLSEASON tfoot').length) {
+                  $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
+                  $('#BOXPLSEASON thead th').each(function () {
+                      $('#BOXPLSEASON tfoot tr').append('<th></th>');
+                  });
+              }
               this.api()
-                  .columns()
+                  .columns([0,1,2])
                   .every(function () {
                       var column = this;
 
