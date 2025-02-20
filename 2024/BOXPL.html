@@ -15,11 +15,43 @@
   </style>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
+
+
+</head>
+<body>
+  <h1>IBL 2024 player season stats</h1>
+  <div id="container2">
+    <table class="inputs">
+      <tbody>
+        <tr>
+          <td>Minimum minutes per game:</td>
+          <td><input type="text" id="min" name="min"></td>
+        </tr>
+        <tr>
+          <td>Maximum minutes per game:</td>
+          <td><input type="text" id="max" name="max"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="container">
+  </div>
   <script type="text/javascript" language="javascript" charset="utf8">
+  $(document).ready(function() {
+
   var minEl = $('#min');
   var maxEl = $('#max');
-
-  var table = $('#BOXPLSEASON').dataTable();
+  $('#container').load('BoxscorePLSEASON.html', function() {
+  var table = $('#BOXPLSEASON').dataTable( {
+        scrollY:        "400px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        fixedColumns: {
+          leftColumns:2,
+          rightColumns:0
+        }
+      });
 
   // Custom range filtering function
   table.search.fixed('range', function (searchStr, data, index) {
@@ -46,43 +78,9 @@
   maxEl.on('input', function () {
       table.draw();
   });
-  </script>
-
-
-</head>
-<body>
-  <h1>IBL 2024 player season stats</h1>
-  <div id="container2">
-    <table class="inputs">
-      <tbody>
-        <tr>
-          <td>Minimum minutes per game:</td>
-          <td><input type="text" id="min" name="min"></td>
-        </tr>
-        <tr>
-          <td>Maximum minutes per game:</td>
-          <td><input type="text" id="max" name="max"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div id="container">
-  </div>
-  <script type="text/javascript" language="javascript" charset="utf8">
-  $(document).ready(function() {
-  $('#container').load('BoxscorePLSEASON.html', function() {
-      $('#BOXPLSEASON').dataTable( {
-        scrollY:        "400px",
-        scrollX:        true,
-        scrollCollapse: true,
-        paging:         false,
-        fixedColumns: {
-          leftColumns:2,
-          rightColumns:0
-        }
-      });
     });
   });
+
   </script>
 </body>
 </html>
