@@ -54,7 +54,7 @@
       });
 
   // Custom range filtering function
-  table.search.fixed('range', function (searchStr, data, index) {
+  $.fn.dataTable.ext.search.push('range', function (settings, data, dataIndex) {
       var min = parseInt(minEl.val(), 10);
       var max = parseInt(maxEl.val(), 10);
       var range = parseFloat(data[32]) || 0; // use data for the age column
