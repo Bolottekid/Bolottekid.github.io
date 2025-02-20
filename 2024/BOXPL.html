@@ -2,9 +2,9 @@
 <html>
 <head>
   <title>IBL 2024 player season stats</title>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery-3.7.0.js"></script>
-  <link rel="stylesheet" type="text/css" href="../DataTables/dataTables.dataTables.css"/>
-  <link rel="stylesheet" type="text/css" href="../DataTables/fixedColumns.dataTables.css"/>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jQuery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../DataTables/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../DataTables/fixedColumns.dataTables.min.css"/>
   <style>
     h1 {text-align: center;}
     th, td { white-space: nowrap; }
@@ -13,8 +13,8 @@
         margin: 0 auto;
     }
   </style>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.js"></script>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
 
 
 </head>
@@ -51,10 +51,10 @@
       });
     });
 
-  const minEl = document.querySelector('#min');
-  const maxEl = document.querySelector('#max');
+  var minEl = document.querySelector('#min');
+  var maxEl = document.querySelector('#max');
 
-  const table = new $('#BOXPLSEASON').dataTable()
+  var table = $('#BOXPLSEASON').dataTable();
 
   // Custom range filtering function
   table.search.fixed('range', function (searchStr, data, index) {
