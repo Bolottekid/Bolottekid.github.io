@@ -12,6 +12,16 @@
         width: 1000px;
         margin: 0 auto;
     }
+    div.filter1 {
+      background: green;
+      display: inline-block;
+      float: left;
+    }
+    div.filter2 {
+      background: red;
+      display: inline-block;
+      float: left;
+    }
   </style>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
@@ -21,26 +31,51 @@
 <body>
   <h1>IBL 2024 player season stats</h1>
   <div id="container2">
-    <table class="inputs">
-      <tbody>
-        <tr>
-          <label for="stat1">Choose filter:</label>
+    <div class="filter1">
+      <table class="inputs">
+        <tbody>
+          <tr>
+            <label for="stat1">Choose filter:</label>
 
-          <select name="stat1" id="stat1">
-            <option selected disabled>Filter 1</option>
-            <option value="32">MIN/G</option>
-            <option value="33">PTS/G</option>
-          </select>
-          <td>Minimum:</td>
-          <td><input type="text" id="min1" name="min1"></td>
-        </tr>
-        <tr>
-          <td>Maximum:</td>
-          <td><input type="text" id="max1" name="max1"></td>
-        </tr>
-      </tbody>
-    </table>
-    <div id="filter">
+            <select name="stat1" id="stat1">
+              <option selected disabled>Filter 1</option>
+              <option value="9">MIN</option>
+              <option value="12">FGA</option>
+              <option value="32">MIN/G</option>
+              <option value="33">PTS/G</option>
+            </select>
+            <td>Minimum:</td>
+            <td><input type="text" id="min1" name="min1"></td>
+          </tr>
+          <tr>
+            <td>Maximum:</td>
+            <td><input type="text" id="max1" name="max1"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="filter2">
+      <table class="inputs">
+        <tbody>
+          <tr>
+            <label for="stat2">Choose filter:</label>
+
+            <select name="stat2" id="stat2">
+              <option selected disabled>Filter 2</option>
+              <option value="9">MIN</option>
+              <option value="12">FGA</option>
+              <option value="32">MIN/G</option>
+              <option value="33">PTS/G</option>
+            </select>
+            <td>Minimum:</td>
+            <td><input type="text" id="min2" name="min2"></td>
+          </tr>
+          <tr>
+            <td>Maximum:</td>
+            <td><input type="text" id="max2" name="max2"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
   <div id="container">
@@ -57,47 +92,42 @@
             fixedColumns: {
               leftColumns:2,
               rightColumns:0
-            },
-            initComplete: function () {
-            this.api()
-                  .columns([0,1,2,3])
-                  .every(function () {
-                      var column = this;
-
-                      // Create select element and listener
-                      var select = $('<select><option value=""></option></select>')
-                      .appendTo( $('.filter') )
-                          .on('change', function () {
-                              column
-                                  .search($(this).val(), {exact: true})
-                                  .draw();
-                          });
-
-                      // Add list of options
-                      column
-                          .data()
-                          .unique()
-                          .sort()
-                          .each(function (d, j) {
-                              select.append(
-                                  '<option value="' + d + '">' + d + '</option>'
-                              );
-                          });
-                  });
             }
           });
 
-      var minEl = $('#min1');
-      var maxEl = $('#max1');
-      var index1 = $('#stat1').find(":selected").val();
+      var minEl1 = $('#min1');
+      var maxEl1 = $('#max1');
+      var index1 = $('#stat1').find(":selected").val() || 32;
       $('#stat1').on("change", function() {
         index1 = $('#stat1').find(":selected").val();
       });
+      var minEl2 = $('#min2');
+      var maxEl2 = $('#max2');
+      var index2 = $('#stat2').find(":selected").val() || 33;
+      $('#stat2').on("change", function() {
+        index1 = $('#stat2').find(":selected").val();
+      });
       // Custom range filtering function
       $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-          var min = parseInt(minEl.val(), 10);
-          var max = parseInt(maxEl.val(), 10);
+          var min = parseInt(minEl1.val(), 10);
+          var max = parseInt(maxEl1.val(), 10);
           var range = parseFloat(data[index1]) || 0; // use data for the column
+
+          if (
+              (isNaN(min) && isNaN(max)) ||
+              (isNaN(min) && range <= max) ||
+              (min <= range && isNaN(max)) ||
+              (min <= range && range <= max)
+          ) {
+              return true;
+          }
+
+          return false;
+      });
+      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+          var min = parseInt(minEl2.val(), 10);
+          var max = parseInt(maxEl2.val(), 10);
+          var range = parseFloat(data[index2]) || 0; // use data for the column
 
           if (
               (isNaN(min) && isNaN(max)) ||
@@ -112,10 +142,16 @@
       });
 
       // Changes to the inputs will trigger a redraw to update the table
-      minEl.on('input', function () {
+      minEl1.on('input', function () {
           table.draw();
       });
-      maxEl.on('input', function () {
+      maxEl1.on('input', function () {
+          table.draw();
+      });
+      minEl2.on('input', function () {
+          table.draw();
+      });
+      maxEl2.on('input', function () {
           table.draw();
       });
     });
