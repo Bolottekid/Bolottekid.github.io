@@ -59,46 +59,41 @@
               rightColumns:0
             },
             initComplete: function () {
-              var api = this.api();
+              var count = 0;
+              this.api().columns().every(function () {
+                var title = $(this.header()).text().trim();
+                var safeTitle = title.replace(/[^a-zA-Z0-9_-]/g, '-'); // Ensure it's a valid ID
+                var column = this;
 
-              // Ensure tfoot exists
-              if (!$('#BOXPLSEASON tfoot').length) {
-                  $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
-                  $('#BOXPLSEASON thead th').each(function () {
-                      $('#BOXPLSEASON tfoot tr').append('<th></th>');
-                  });
-              }
+                var select = $('<select id="' + safeTitle + '" class="select2"></select>')
+                  .appendTo($(column.footer()).empty())
+                  .on('change', function () {
+                    var data = $(this).val() || []; // Corrected way to get selected values
 
-              api.columns().every(function () {
-                  var column = this;
-                  var title = $(column.header()).text().trim();
-                  var safeTitle = title.replace(/[^a-zA-Z0-9_-]/g, '-');
+                    // If no selection, reset filter
+                    var val = data.length ? data.map($.fn.dataTable.util.escapeRegex).join('|') : '';
 
-                  // Create a select element for filtering
-                  var select = $('<select id="' + safeTitle + '" class="select2" multiple></select>')
-                      .appendTo($(column.footer()).empty())
-                      .on('change', function () {
-                          var values = $(this).val() || [];
-                          var searchVal = values.length ? values.map($.fn.dataTable.util.escapeRegex).join('|') : '';
-                          column.search(searchVal ? '^(' + searchVal + ')$' : '', true, false).draw();
-                      });
-
-                  // Populate the dropdown with unique values
-                  column.data().unique().sort().each(function (d, j) {
-                      select.append('<option value="' + d + '">' + d + '</option>');
+                    // Apply search filter
+                    column.search(val ? '^(' + val + ')$' : '', true, false).draw();
                   });
 
-                  // Initialize Select2
-                  select.select2({
-                      multiple: true,
-                      closeOnSelect: false,
-                      placeholder: "Filter " + title
-                  });
+                // Populate dropdown with unique values
+                column.data().unique().sort().each(function (d, j) {
+                  select.append('<option value="' + d + '">' + d + '</option>');
+                });
 
-                  // Clear selection initially
-                  select.val(null).trigger('change');
+                // Initialize Select2
+                $('#' + safeTitle).select2({
+                  multiple: true,
+                  closeOnSelect: false,
+                  placeholder: "Select a " + title
+                });
+
+                // Clear initial selection
+                select.val(null).trigger('change');
               });
-          }          });
+            }
+          });
 
       var minEl = $('#min1');
       var maxEl = $('#max1');
