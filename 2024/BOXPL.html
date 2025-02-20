@@ -37,10 +37,11 @@
 
             <select name="stat1" id="stat1">
               <option selected disabled>Filter 1</option>
-              <option value="9">MIN</option>
-              <option value="12">FGA</option>
+              <option value="8">MIN</option>
+              <option value="11">FGA</option>
               <option value="32">MIN/G</option>
-              <option value="33">PTS/G</option>
+              <option value="37">FGA/G</option>
+              <option value="62">USG%</option>
             </select>
             <td>Minimum:</td>
             <td><input type="text" id="min1" name="min1"></td>
@@ -60,10 +61,11 @@
 
             <select name="stat2" id="stat2">
               <option selected disabled>Filter 2</option>
-              <option value="9">MIN</option>
-              <option value="12">FGA</option>
+              <option value="8">MIN</option>
+              <option value="11">FGA</option>
               <option value="32">MIN/G</option>
-              <option value="33">PTS/G</option>
+              <option value="37">FGA/G</option>
+              <option value="62">USG%</option>
             </select>
             <td>Minimum:</td>
             <td><input type="text" id="min2" name="min2"></td>
@@ -101,9 +103,9 @@
       });
       var minEl2 = $('#min2');
       var maxEl2 = $('#max2');
-      var index2 = $('#stat2').find(":selected").val() || 33;
+      var index2 = $('#stat2').find(":selected").val() || 8;
       $('#stat2').on("change", function() {
-        index1 = $('#stat2').find(":selected").val();
+        index2 = $('#stat2').find(":selected").val();
       });
       // Custom range filtering function
       $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
@@ -113,7 +115,7 @@
 
           if (
               (isNaN(min1) && isNaN(max1)) ||
-              (isNaN(min1) && range <= max1) ||
+              (isNaN(min1) && range1 <= max1) ||
               (min1 <= range1 && isNaN(max1)) ||
               (min1 <= range1 && range1 <= max1)
           ) {
@@ -137,7 +139,7 @@
 
         if (
           (isNaN(min2) && isNaN(max2)) ||
-          (isNaN(min2) && range <= max2) ||
+          (isNaN(min2) && range2 <= max2) ||
           (min2 <= range2 && isNaN(max2)) ||
           (min2 <= range2 && range2 <= max2)
         ) {
