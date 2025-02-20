@@ -40,7 +40,7 @@
   $(document).ready(function() {
 
     $('#container').load('BoxscorePLSEASON.html', function() {
-      $('#BOXPLSEASON').dataTable( {
+      var table = $('#BOXPLSEASON').DataTable( {
             scrollY:        "400px",
             scrollX:        true,
             scrollCollapse: true,
@@ -50,34 +50,34 @@
               rightColumns:0
             }
           });
-        });
 
-    var minEl = $('#min');
-    var maxEl = $('#max');
+      var minEl = $('#min');
+      var maxEl = $('#max');
       // Custom range filtering function
-    $('#BOXPLSEASON').dataTable.ext.search.push('range', function (settings, data, dataIndex) {
-        var min = parseInt(minEl.val(), 10);
-        var max = parseInt(maxEl.val(), 10);
-        var range = parseFloat(data[32]) || 0; // use data for the age column
+      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+          var min = parseInt(minEl.val(), 10);
+          var max = parseInt(maxEl.val(), 10);
+          var range = parseFloat(data[32]) || 0; // use data for the age column
 
-        if (
-            (isNaN(min) && isNaN(max)) ||
-            (isNaN(min) && range <= max) ||
-            (min <= range && isNaN(max)) ||
-            (min <= range && range <= max)
-        ) {
-            return true;
-        }
+          if (
+              (isNaN(min) && isNaN(max)) ||
+              (isNaN(min) && range <= max) ||
+              (min <= range && isNaN(max)) ||
+              (min <= range && range <= max)
+          ) {
+              return true;
+          }
 
-        return false;
-    });
+          return false;
+      });
 
-    // Changes to the inputs will trigger a redraw to update the table
-    minEl.on('input', function () {
-        $('#BOXPLSEASON').dataTable.draw();
-    });
-    maxEl.on('input', function () {
-        $('#BOXPLSEASON').dataTable.draw();
+      // Changes to the inputs will trigger a redraw to update the table
+      minEl.on('input', function () {
+          table.draw();
+      });
+      maxEl.on('input', function () {
+          table.draw();
+      });
     });
   });
 
