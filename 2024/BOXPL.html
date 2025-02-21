@@ -291,6 +291,7 @@
         $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
         index4 = $('#stat4').val() || [];
         index4.forEach( function (key,values) {
+          console.log((key+1))
           $("#BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize().toggleClass('coloured');
         });
       });
