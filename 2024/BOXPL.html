@@ -290,9 +290,10 @@
       $('#stat4').on("change", function() {
         $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
         index4 = $('#stat4').val() || [];
-        index4.forEach( function (key,values) {
-          console.log((key+1))
-          $("#BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize().toggleClass('coloured');
+        index4.forEach( function (values,key) {
+          values = parseInt(values,10)+1;
+          console.log(values)
+          $("#BOXPLSEASON tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
         });
       });
 
