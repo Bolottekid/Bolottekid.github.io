@@ -283,17 +283,16 @@
       $('#stat3').on("change", function() {
         table.columns(index3).visible(true);
         index3 = $('#stat3').val() || [];
-        console.log(index3);
         table.columns(index3).visible(false);
       });
 
       var index4 = $('#stat4').val() || [];
       $('#stat4').on("change", function() {
-       $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
-       index4 = $('#stat4').val() || [];
-       index4.forEach( function (key,values) {
-         $("#BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize().toggleClass('coloured');
-       });
+        $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        index4 = $('#stat4').val() || [];
+        index4.forEach( function (key,values) {
+          $("#BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize().toggleClass('coloured');
+        });
       });
 
       // Custom range filtering function
