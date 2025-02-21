@@ -78,6 +78,7 @@
       $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
       $('#BOXPLSEASON thead th').clone().appendTo($("#BOXPLSEASON tfoot tr")) ;
       $('#BOXPLSEASON thead th').each( function (key,values) {
+        if (key<5){return true;}
         $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));
       });
