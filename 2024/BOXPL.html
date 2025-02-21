@@ -202,6 +202,14 @@
               leftColumns:2,
               rightColumns:0
             },
+            // Table Heat Map
+            drawCallback: function () {
+              $('#BOXPLSEASON thead th').each( function (key,values) {
+                if (key<5){return true;}
+                $("BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize();
+              });
+            },
+
             initComplete: function () {
               count = 0;
               this.api().columns([0,1,2,3]).every( function () {
@@ -246,13 +254,6 @@
                 //initially clear select otherwise first option is selected
                 $('.select2').val(null).trigger('change');
               } );
-            },
-            // Table Heat Map
-            drawCallback: function () {
-              $('#BOXPLSEASON thead th').each( function (key,values) {
-                if (key<5){return true;}
-                $("BOXPLSEASON tbody tr td:nth-child("+(key+1)+")").colorize();
-              });
             }
           });
 
