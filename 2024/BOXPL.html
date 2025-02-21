@@ -39,11 +39,6 @@
 
             <select name="stat1" id="stat1">
               <option selected disabled>Filter 1</option>
-              <option value="8">MIN/G</option>
-              <option value="13">FGA/G</option>
-              <option value="39">USG%</option>
-              <option value="40">MIN</option>
-              <option value="43">FGA</option>
             </select>
             <td>Minimum:</td>
             <td><input type="text" id="min1" name="min1"></td>
@@ -63,11 +58,6 @@
 
             <select name="stat2" id="stat2">
               <option selected disabled>Filter 2</option>
-              <option value="8">MIN/G</option>
-              <option value="13">FGA/G</option>
-              <option value="39">USG%</option>
-              <option value="40">MIN</option>
-              <option value="43">FGA</option>
             </select>
             <td>Minimum:</td>
             <td><input type="text" id="min2" name="min2"></td>
@@ -87,6 +77,10 @@
     $('#container').load('BoxscorePLSEASON.html', function() {
       $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
       $('#BOXPLSEASON thead th').clone().appendTo($("#BOXPLSEASON tfoot tr")) ;
+      $('#BOXPLSEASON thead th').each( function (key,values) {
+        $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
+        $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));
+      });
       var table = $('#BOXPLSEASON').DataTable( {
             scrollY:        "400px",
             scrollX:        true,
