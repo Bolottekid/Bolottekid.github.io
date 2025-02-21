@@ -247,10 +247,11 @@
                 $('.select2').val(null).trigger('change');
               } );
             },
+            // Table Heat Map
             drawCallback: function () {
               $('#BOXPLSEASON thead th').each( function (key,values) {
                 if (key<5){return true;}
-                $("BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize();
+                $("BOXPLSEASON tbody tr td:nth-child("+(key+1)+")").colorize();
               });
             }
           });
@@ -314,7 +315,6 @@
       maxEl2.on('input', function () {
           table.draw();
       });
-      // Table Heat Map
     });
   });
 
