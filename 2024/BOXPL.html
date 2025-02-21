@@ -82,6 +82,7 @@
   </div>
   <div id="container">
   </div>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery-colorized.min.js"></script>
   <script type="text/javascript" language="javascript" charset="utf8">
   $(document).ready(function() {
 
@@ -203,6 +204,7 @@
       maxEl2.on('input', function () {
           table.draw();
       });
+      $("#BOXPLSEASON tbody td").not(":nth-child(3),:nth-child(4)").colorize();
     });
   });
 
