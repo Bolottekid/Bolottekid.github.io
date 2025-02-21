@@ -278,24 +278,29 @@
         index2 = $('#stat2').find(":selected").val();
       });
 
-      //column color scale
+      //column hide filter
+      var index3 = $('#stat3').val() || [];
+      $('#stat3').on("change", function() {
+        $('#stat4').empty();
+        $('#stat4').append($('<option>').text('Filter 4'));
+        table.columns(index3).visible(true);
+        index3 = $('#stat3').val() || [];
+        table.columns(index3).visible(false);
+        $('#BOXPLSEASON thead th').each( function (key,values) {
+          if (values == 'PLAYER' || values == 'CODE' || values == 'NO.' || values == 'POS' || values == 'TEAM' ){return true;}
+          $('#stat4').append($('<option>', { value : key }).text(values.innerHTML));
+        });
+        $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+      });
+
       var index4 = $('#stat4').val() || [];
       $('#stat4').on("change", function() {
         $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
         index4 = $('#stat4').val() || [];
         index4.forEach( function (values,key) {
           values = parseInt(values,10)+1;
-          console.log(values)
           $("#BOXPLSEASON tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
         });
-      });
-
-      //column hide filter
-      var index3 = $('#stat3').val() || [];
-      $('#stat3').on("change", function() {
-        table.columns(index3).visible(true);
-        index3 = $('#stat3').val() || [];
-        table.columns(index3).visible(false);
       });
 
       // Custom range filtering function
