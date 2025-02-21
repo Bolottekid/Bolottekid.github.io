@@ -202,6 +202,8 @@
             drawCallback: function () {
               $('#BOXPLSEASON thead th').each( function (key,values) {
                 if (key<5){return true;}
+                console.log(key+1);
+                console.log(values.innerHTML);
                 $("BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize();
               });
             },
