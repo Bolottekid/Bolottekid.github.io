@@ -205,7 +205,7 @@
         $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat4').append($('<option>', { value : key }).text(values.innerHTML));
       });
-      $('#BOXTMGAME').dataTable( {
+      var table = $('#BOXTMGAME').dataTable( {
         scrollY:        "400px",
         scrollX:        true,
         scrollCollapse: true,
