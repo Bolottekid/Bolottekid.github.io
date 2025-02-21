@@ -16,6 +16,7 @@
     div.filter {
       display: inline-block;
       float: left;
+      border: solid 4px white;
     }
   </style>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
@@ -64,6 +65,18 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="filter">
+      <label for="stat3">Column hide filter:</label>
+      <select name="stat3" id="stat3" multiple='multiple'>
+        <option>Filter 3</option>
+      </select>
+    </div>
+    <div class="filter">
+      <label for="stat4">Column color scale:</label>
+      <select name="stat4" id="stat4" multiple='multiple'>
+        <option>Filter 4</option>
+      </select>
     </div>
   </div>
   <div id="container">
@@ -186,9 +199,11 @@
       $('#PLONOFF').append('<tfoot><tr></tr></tfoot>');
       $('#PLONOFF thead th').clone().appendTo($("#PLONOFF tfoot tr")) ;
       $('#PLONOFF thead th').each( function (key,values) {
+        $('#stat3').append($('<option>', { value : key }).text(values.innerHTML));
         if (key<2){return true;}
         $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));
+        $('#stat4').append($('<option>', { value : key }).text(values.innerHTML));
       });
       $('#PLONOFF').dataTable( {
         scrollY:        "400px",
@@ -200,10 +215,7 @@
             },
             // Table Heat Map
             drawCallback: function () {
-              $('#PLONOFF thead th').each( function (key,values) {
-                if (key<2){return true;}
-                $("#PLONOFF tbody td:nth-child("+(key+1)+")").colorize();
-              });
+              $('#PLONOFF tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
             },
 
             initComplete: function () {
@@ -265,6 +277,36 @@
       $('#stat2').on("change", function() {
         index2 = $('#stat2').find(":selected").val();
       });
+
+      //column hide filter
+      var index3 = $('#stat3').val() || [];
+      $('#stat3').on("change", function() {
+        $('#stat4').empty();
+        $('#stat4').append($('<option>').text('Filter 4'));
+        table.columns(index3).visible(true);
+        index3 = $('#stat3').val() || [];
+        table.columns(index3).visible(false);
+        $('#PLONOFF thead th').each( function (key,values) {
+          values = values.textContent.trim();
+          if (
+            values == 'PLAYER' ||
+            values == 'CODE' ){return true;}
+          $('#stat4').append($('<option>', { value : key }).text(values));
+        });
+        $('#PLONOFF tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+      });
+
+      //column color scale
+      var index4 = $('#stat4').val() || [];
+      $('#stat4').on("change", function() {
+        $('#PLONOFF tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        index4 = $('#stat4').val() || [];
+        index4.forEach( function (values,key) {
+          values = parseInt(values,10)+1;
+          $("#PLONOFF tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
+        });
+      });
+
       // Custom range filtering function
       $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
           var min1 = parseInt(minEl1.val(), 10);
