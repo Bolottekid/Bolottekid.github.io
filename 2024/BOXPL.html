@@ -16,7 +16,7 @@
     div.filter {
       display: inline-block;
       float: left;
-      border: solid 4px white;  
+      border: solid 4px white;
     }
   </style>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
@@ -215,9 +215,7 @@
             },
             // Table Heat Map
             drawCallback: function () {
-              $('#BOXPLSEASON thead th').each( function (key,values) {
-                if (key<5){return true;}
-                $("#BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize();
+              $('td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
               });
             },
 
@@ -288,6 +286,15 @@
         index3 = $('#stat3').val() || [];
         console.log(index3);
         table.columns(index3).visible(false);
+      });
+
+      var index4 = $('#stat4').val() || [];
+      $('#stat4').on("change", function() {
+       $('#BOXPLSEASON td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+       index4 = $('#stat4').val() || [];
+       index4.forEach( function (key,values) {
+         $("#BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize().toggleClass('coloured');
+       });
       });
 
       // Custom range filtering function
