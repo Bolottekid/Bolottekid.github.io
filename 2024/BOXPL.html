@@ -184,7 +184,7 @@
         return this;
     };
   }(jQuery));
-  
+
   $(document).ready(function() {
     $('#container').load('BoxscorePLSEASON.html', function() {
       $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
@@ -246,6 +246,12 @@
                 //initially clear select otherwise first option is selected
                 $('.select2').val(null).trigger('change');
               } );
+            },
+            drawCallback: function () {
+              $('#BOXPLSEASON thead th').each( function (key,values) {
+                if (key<5){return true;}
+                $("BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize();
+              });
             }
           });
 
@@ -309,7 +315,6 @@
           table.draw();
       });
       // Table Heat Map
-      $("#BOXPLSEASON tbody td:nth-child(5)").colorize();
     });
   });
 
