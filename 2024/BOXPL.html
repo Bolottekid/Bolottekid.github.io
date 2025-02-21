@@ -65,6 +65,18 @@
         </tbody>
       </table>
     </div>
+    <div class="filter">
+      <label for="stat3">Column hide filter:</label>
+      <select name="stat3" id="stat3" multiple='multiple'>
+        <option>Filter 3</option>
+      </select>
+    </div>
+    <div class="filter">
+      <label for="stat4">Column color scale:</label>
+      <select name="stat4" id="stat4" multiple='multiple'>
+        <option>Filter 4</option>
+      </select>
+    </div>
   </div>
   <div id="container">
   </div>
@@ -186,9 +198,11 @@
       $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
       $('#BOXPLSEASON thead th').clone().appendTo($("#BOXPLSEASON tfoot tr")) ;
       $('#BOXPLSEASON thead th').each( function (key,values) {
+        $('#stat3').append($('<option>', { value : key }).text(values.innerHTML));
         if (key<5){return true;}
         $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));
+        $('#stat4').append($('<option>', { value : key }).text(values.innerHTML));
       });
       var table = $('#BOXPLSEASON').DataTable( {
             scrollY:        "400px",
@@ -265,6 +279,16 @@
       $('#stat2').on("change", function() {
         index2 = $('#stat2').find(":selected").val();
       });
+
+      //column hide filter
+      var index3 = $('#stat3').val() || [];
+      $('#stat3').on("change", function() {
+        table.columns(index3).visible(true);
+        index3 = $('#stat3').val() || [];
+        console.log(index3);
+        table.columns(index3).visible(false);
+      });
+
       // Custom range filtering function
       $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
           var min1 = parseInt(minEl1.val(), 10);
