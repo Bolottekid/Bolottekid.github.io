@@ -287,6 +287,8 @@
         index3 = $('#stat3').val() || [];
         table.columns(index3).visible(false);
         $('#BOXPLSEASON thead th').each( function (key,values) {
+          values = values.innerHTML
+          console.log(values)
           if (values == 'PLAYER' || values == 'CODE' || values == 'NO.' || values == 'POS' || values == 'TEAM' ){return true;}
           $('#stat4').append($('<option>', { value : key }).text(values.innerHTML));
         });
