@@ -200,9 +200,9 @@
             },
             // Table Heat Map
             drawCallback: function () {
-              $('#BOXPLSEASON thead th').each( function (key,values) {
+              $('#BOXPLGAME thead th').each( function (key,values) {
                 if (key<9){return true;}
-                $("#BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize();
+                $("#BOXPLGAME tbody td:nth-child("+(key+1)+")").colorize();
               });
             },
 
