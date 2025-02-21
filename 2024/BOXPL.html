@@ -278,14 +278,7 @@
         index2 = $('#stat2').find(":selected").val();
       });
 
-      //column hide filter
-      var index3 = $('#stat3').val() || [];
-      $('#stat3').on("change", function() {
-        table.columns(index3).visible(true);
-        index3 = $('#stat3').val() || [];
-        table.columns(index3).visible(false);
-      });
-
+      //column color scale
       var index4 = $('#stat4').val() || [];
       $('#stat4').on("change", function() {
         $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
@@ -295,6 +288,14 @@
           console.log(values)
           $("#BOXPLSEASON tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
         });
+      });
+
+      //column hide filter
+      var index3 = $('#stat3').val() || [];
+      $('#stat3').on("change", function() {
+        table.columns(index3).visible(true);
+        index3 = $('#stat3').val() || [];
+        table.columns(index3).visible(false);
       });
 
       // Custom range filtering function
