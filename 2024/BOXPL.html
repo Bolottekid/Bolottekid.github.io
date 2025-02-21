@@ -215,7 +215,7 @@
             },
             // Table Heat Map
             drawCallback: function () {
-              $('td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+              $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
             },
 
             initComplete: function () {
@@ -289,7 +289,7 @@
 
       var index4 = $('#stat4').val() || [];
       $('#stat4').on("change", function() {
-       $('#BOXPLSEASON td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+       $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
        index4 = $('#stat4').val() || [];
        index4.forEach( function (key,values) {
          $("#BOXPLSEASON tbody td:nth-child("+(key+1)+")").colorize().toggleClass('coloured');
