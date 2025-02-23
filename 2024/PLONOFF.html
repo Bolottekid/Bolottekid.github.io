@@ -197,6 +197,7 @@
   $(document).ready(function() {
     $('#container').load('PlayerONOFF.html', function() {
       $('#PLONOFF').append('<tfoot><tr></tr></tfoot>');
+      $('#PLONOFF thead tr:nth-child(3) th').clone().appendTo($("#PLONOFF tfoot tr"));
       var input = [];
       var input2;
       var input3;
@@ -204,24 +205,27 @@
         if (key<2) {
           input.push(values.innerHTML);
         } else if(key >1 && key <22) {
+          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(2)').first().text();
+          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
+          input.push(input3+' '+input2+' '+values.innerHTML);
+        } else if(key >21 && key <42) {
+          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(3)').first().text();
+          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
+          input.push(input3+' '+input2+' '+values.innerHTML);
+        } else if(key == 42) {
+          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
+          input.push(input3+' '+values.innerHTML);
+        } else if(key >42 && key <63) {
+          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(2)').first().text();
+          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
+          input.push(input3+' '+input2+' '+values.innerHTML);
+        } else if(key >62 && key <83) {
           input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(3)').first().text();
           input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
           input.push(input3+' '+input2+' '+values.innerHTML);
-        } else if(key >21 && key <42) {
-          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(4)').first().text();
-          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
-          input.push(input3+' '+input2+' '+values.innerHTML);
-        } else if(key == 42 || key == 83) {
+        } else if(key == 83) {
           input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
           input.push(input3+' '+values.innerHTML);
-        } else if(key >42 && key <63) {
-          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(6)').first().text();
-          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(4)').first().text();
-          input.push(input3+' '+input2+' '+values.innerHTML);
-        } else if(key >62 && key <83) {
-          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(6)').first().text();
-          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(4)').first().text();
-          input.push(input3+' '+input2+' '+values.innerHTML);
         }
       });
       input.forEach( function (values,key) {
