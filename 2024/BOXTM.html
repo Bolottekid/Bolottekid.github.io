@@ -199,7 +199,7 @@
       $('#BOXTMSEASON').append('<tfoot><tr></tr></tfoot>');
       $('#BOXTMSEASON thead th').clone().appendTo($("#BOXTMSEASON tfoot tr")) ;
       $('#BOXTMSEASON thead th').each( function (key,values) {
-        $('#stat3').append($('<option>', { value : key }).text(values.innerHTML));
+        if (key>0){$('#stat3').append($('<option>', { value : key }).text(values.innerHTML));}
         if (key<3){return true;}
         $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));

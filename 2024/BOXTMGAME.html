@@ -199,7 +199,7 @@
       $('#BOXTMGAME').append('<tfoot><tr></tr></tfoot>');
       $('#BOXTMGAME thead th').clone().appendTo($("#BOXTMGAME tfoot tr")) ;
       $('#BOXTMGAME thead th').each( function (key,values) {
-        $('#stat3').append($('<option>', { value : key }).text(values.innerHTML));
+        if (key>1){$('#stat3').append($('<option>', { value : key }).text(values.innerHTML));}
         if (key<6){return true;}
         $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));

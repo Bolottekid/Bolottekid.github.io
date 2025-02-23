@@ -199,7 +199,7 @@
       $('#PLONOFF').append('<tfoot><tr></tr></tfoot>');
       $('#PLONOFF thead th').clone().appendTo($("#PLONOFF tfoot tr")) ;
       $('#PLONOFF thead th').each( function (key,values) {
-        $('#stat3').append($('<option>', { value : key }).text(values.innerHTML));
+        if (key>1){$('#stat3').append($('<option>', { value : key }).text(values.innerHTML));}
         if (key<2){return true;}
         $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));
