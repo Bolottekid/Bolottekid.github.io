@@ -197,13 +197,39 @@
   $(document).ready(function() {
     $('#container').load('PlayerONOFF.html', function() {
       $('#PLONOFF').append('<tfoot><tr></tr></tfoot>');
-      $('#PLONOFF thead th').clone().appendTo($("#PLONOFF tfoot tr")) ;
-      $('#PLONOFF thead th').each( function (key,values) {
-        if (key>1){$('#stat3').append($('<option>', { value : key }).text(values.innerHTML));}
+      var input = [];
+      var input2;
+      var input3;
+      $('#PLONOFF thead tr:nth-child(3) th').each( function (key,values) {
+        if (key<2) {
+          input.push($("#PLONOFF thead tr:nth-child(1) th:nth-child("+(key+1)+")").first().text());
+        } else if(key >1 && key <22) {
+          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(3)').first().text();
+          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
+          input.push(input3+' '+input2+' '+values.innerHTML);
+        } else if(key >21 && key <42) {
+          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(4)').first().text();
+          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
+          input.push(input3+' '+input2+' '+values.innerHTML);
+        } else if(key == 42 || key == 83) {
+          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
+          input.push(input3+' '+values.innerHTML);
+        } else if(key >42 && key <63) {
+          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(6)').first().text();
+          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(4)').first().text();
+          input.push(input3+' '+input2+' '+values.innerHTML);
+        } else if(key >62 && key <83) {
+          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(6)').first().text();
+          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(4)').first().text();
+          input.push(input3+' '+input2+' '+values.innerHTML);
+        }
+      });
+      input.forEach( function (values,key) {
+        if (key>1){$('#stat3').append($('<option>', { value : key }).text(values));}
         if (key<2){return true;}
-        $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
-        $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));
-        $('#stat4').append($('<option>', { value : key }).text(values.innerHTML));
+        $('#stat1').append($('<option>', { value : key }).text(values));
+        $('#stat2').append($('<option>', { value : key }).text(values));
+        $('#stat4').append($('<option>', { value : key }).text(values));
       });
       var table = $('#PLONOFF').DataTable( {
             scrollY:        "400px",
@@ -286,12 +312,19 @@
         table.columns(index3).visible(true);
         index3 = $('#stat3').val() || [];
         table.columns(index3).visible(false);
-        $('#PLONOFF thead th').each( function (key,values) {
-          values = values.textContent.trim();
-          if (
-            values == 'PLAYER' ||
-            values == 'CODE' ){return true;}
-          $('#stat4').append($('<option>', { value : key }).text(values));
+        var dummy = [];
+        var i = 0;
+        input.forEach( function (values,key) {
+          if(index3.includes(key.toString())===false){
+            dummy.push(values);
+            if (
+              values == 'PLAYER' ||
+              values == 'CODE' ){
+              i = i+1;
+              return true;}
+            $('#stat4').append($('<option>', { value : i }).text(values));
+            i = i+1;
+          }
         });
         $('#PLONOFF tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
       });
