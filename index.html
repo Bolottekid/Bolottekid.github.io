@@ -7,12 +7,156 @@
     h2 {text-align: left;}
     h3 {text-align: left;}
     th, td { white-space: nowrap; }
+    .navbar {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .navbar a {
+      float: left;
+      font-size: 16px;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    .dropdown {
+      float: left;
+      overflow: hidden;
+    }
+
+    .dropdown .dropbtn {
+      font-size: 16px;
+      border: none;
+      outline: none;
+      color: white;
+      padding: 14px 16px;
+      background-color: inherit;
+      font-family: inherit;
+      margin: 0;
+    }
+
+    .navbar a:hover, .dropdown:hover .dropbtn {
+      background-color: red;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      float: none;
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
   </style>
 
 
 </head>
 <body>
+  <div class="navbar">
+    <!--<a href="#home">Home</a>-->
+    <div class="dropdown">
+      <button class="dropbtn">2017
+      </button>
+      <div class="dropdown-content">
+        <a href="#">Regular season</a>
+        <a href="#">Playoff</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">2018
+      </button>
+      <div class="dropdown-content">
+        <a href="#">Regular season</a>
+        <a href="#">Playoff</a>
+        <a href="#">Cup Playoff</a>
+        <a href="#">Cup Group</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">2019
+      </button>
+      <div class="dropdown-content">
+        <a href="#">Regular season</a>
+        <a href="#">Playoff</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">2020
+      </button>
+      <div class="dropdown-content">
+        <a href="#">Regular season</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">2021
+      </button>
+      <div class="dropdown-content">
+        <a href="#">Regular season</a>
+        <a href="#">Playoff</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">2022
+      </button>
+      <div class="dropdown-content">
+        <a href="#">Regular season</a>
+        <a href="#">Playoff</a>
+        <a href="#">Cup</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">2023
+      </button>
+      <div class="dropdown-content">
+        <a href="#">Regular season</a>
+        <a href="#">Playoff</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">2024
+      </button>
+      <div class="dropdown-content">
+        <a href="2024/REGULAR/index.html">Regular season</a>
+        <a href="#">Playoff</a>
+        <a href="#">Cup</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">2025
+      </button>
+      <div class="dropdown-content">
+        <a href="#">Regular season</a>
+      </div>
+    </div>
+  </div>
   <h1>BoxOut present IBL Stats</h1>
+  <h2><a href="#">2017</a></h2>
+  <h2><a href="#">2018</a></h2>
+  <h2><a href="#">2019</a></h2>
+  <h2><a href="#">2020</a></h2>
+  <h2><a href="#">2021</a></h2>
+  <h2><a href="#">2022</a></h2>
+  <h2><a href="#">2023</a></h2>
   <h2><a href="2024/REGULAR/index.html">2024</a></h2>
+  <h2><a href="">2025</a></h2>
 </body>
 </html>
