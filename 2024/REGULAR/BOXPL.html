@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IBL 2024 team season stats</title>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jQuery-3.6.0.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../DataTables/jquery.dataTables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="../DataTables/fixedColumns.dataTables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="../DataTables/select2.min.css"/>
+  <title>IBL 2024 player REGULAR season stats</title>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/jQuery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../DataTables/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../../DataTables/fixedColumns.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../../DataTables/select2.min.css"/>
   <style>
     h1 {text-align: center;}
     th, td { white-space: nowrap; }
@@ -19,14 +19,14 @@
       border: solid 4px white;
     }
   </style>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/select2.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/dataTables.fixedColumns.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/select2.min.js"></script>
 
 
 </head>
 <body>
-  <h1>IBL 2024 team season stats</h1>
+  <h1>IBL 2024 player REGULAR season stats</h1>
   <div id="container2">
     <div class="filter">
       <table class="inputs">
@@ -195,32 +195,32 @@
   }(jQuery));
 
   $(document).ready(function() {
-    $('#container').load('BoxscoreTMSEASON.html', function() {
-      $('#BOXTMSEASON').append('<tfoot><tr></tr></tfoot>');
-      $('#BOXTMSEASON thead th').clone().appendTo($("#BOXTMSEASON tfoot tr")) ;
-      $('#BOXTMSEASON thead th').each( function (key,values) {
-        if (key>0){$('#stat3').append($('<option>', { value : key }).text(values.innerHTML));}
-        if (key<3){return true;}
+    $('#container').load('BoxscorePLSEASON.html', function() {
+      $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
+      $('#BOXPLSEASON thead th').clone().appendTo($("#BOXPLSEASON tfoot tr")) ;
+      $('#BOXPLSEASON thead th').each( function (key,values) {
+        if (key>1){$('#stat3').append($('<option>', { value : key }).text(values.innerHTML));}
+        if (key<5){return true;}
         $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat4').append($('<option>', { value : key }).text(values.innerHTML));
       });
-      var table = $('#BOXTMSEASON').DataTable( {
+      var table = $('#BOXPLSEASON').DataTable( {
             scrollY:        "400px",
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns: {
-              leftColumns:1,
+              leftColumns:2,
               rightColumns:0
             },
             // Table Heat Map
             drawCallback: function () {
-              $('#BOXTMSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+              $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
             },
 
             initComplete: function () {
               count = 0;
-              this.api().columns([0,1]).every( function () {
+              this.api().columns([0,1,2,3]).every( function () {
                 var title = this.header();
                 //replace spaces with dashes
                 title = $(title).html().replace(/[\W]/g, '-');
@@ -267,13 +267,13 @@
 
       var minEl1 = $('#min1');
       var maxEl1 = $('#max1');
-      var index1 = $('#stat1').find(":selected").val() || 3;
+      var index1 = $('#stat1').find(":selected").val() || 9;
       $('#stat1').on("change", function() {
         index1 = $('#stat1').find(":selected").val();
       });
       var minEl2 = $('#min2');
       var maxEl2 = $('#max2');
-      var index2 = $('#stat2').find(":selected").val() || 3;
+      var index2 = $('#stat2').find(":selected").val() || 9;
       $('#stat2').on("change", function() {
         index2 = $('#stat2').find(":selected").val();
       });
@@ -286,25 +286,27 @@
         table.columns(index3).visible(true);
         index3 = $('#stat3').val() || [];
         table.columns(index3).visible(false);
-        $('#BOXTMSEASON thead th').each( function (key,values) {
+        $('#BOXPLSEASON thead th').each( function (key,values) {
           values = values.textContent.trim();
           if (
+            values == 'PLAYER' ||
             values == 'CODE' ||
-            values == 'GP' ||
+            values == 'NO.' ||
+            values == 'POS' ||
             values == 'TEAM' ){return true;}
           $('#stat4').append($('<option>', { value : key }).text(values));
         });
-        $('#BOXTMSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
       });
 
       //column color scale
       var index4 = $('#stat4').val() || [];
       $('#stat4').on("change", function() {
-        $('#BOXTMSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
         index4 = $('#stat4').val() || [];
         index4.forEach( function (values,key) {
           values = parseInt(values,10)+1;
-          $("#BOXTMSEASON tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
+          $("#BOXPLSEASON tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
         });
       });
 

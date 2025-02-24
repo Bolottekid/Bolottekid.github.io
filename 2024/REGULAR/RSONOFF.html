@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IBL 2024 player ON/OFF season stats</title>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jQuery-3.6.0.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../DataTables/jquery.dataTables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="../DataTables/fixedColumns.dataTables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="../DataTables/select2.min.css"/>
+  <title>IBL 2024 roster ON/OFF REGULAR season stats</title>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/jQuery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../DataTables/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../../DataTables/fixedColumns.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../../DataTables/select2.min.css"/>
   <style>
     h1 {text-align: center;}
     th, td { white-space: nowrap; }
@@ -18,15 +18,19 @@
       float: left;
       border: solid 4px white;
     }
+    .columnlong {
+      max-width: 300px;
+      overflow: auto;
+    }
   </style>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/select2.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/dataTables.fixedColumns.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/select2.min.js"></script>
 
 
 </head>
 <body>
-  <h1>IBL 2024 player ON/OFF season stats</h1>
+  <h1>IBL 2024 roster ON/OFF REGULAR season stats</h1>
   <div id="container2">
     <div class="filter">
       <table class="inputs">
@@ -195,37 +199,20 @@
   }(jQuery));
 
   $(document).ready(function() {
-    $('#container').load('PlayerONOFF.html', function() {
-      $('#PLONOFF').append('<tfoot><tr></tr></tfoot>');
-      $('#PLONOFF thead tr:nth-child(3) th').clone().appendTo($("#PLONOFF tfoot tr"));
+    $('#container').load('RosterONOFF.html', function() {
+      $('#RSONOFF').append('<tfoot><tr></tr></tfoot>');
+      $('#RSONOFF thead tr:nth-child(2) th').clone().appendTo($("#RSONOFF tfoot tr"));
       var input = [];
       var input2;
-      var input3;
-      $('#PLONOFF thead tr:nth-child(3) th').each( function (key,values) {
-        if (key<2) {
+      $('#RSONOFF thead tr:nth-child(2) th').each( function (key,values) {
+        if (key<2 || key === 42) {
           input.push(values.innerHTML);
         } else if(key >1 && key <22) {
-          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(2)').first().text();
-          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
-          input.push(input3+' '+input2+' '+values.innerHTML);
+          input2 = $('#RSONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
+          input.push(input2+' '+values.innerHTML);
         } else if(key >21 && key <42) {
-          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(3)').first().text();
-          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
-          input.push(input3+' '+input2+' '+values.innerHTML);
-        } else if(key == 42) {
-          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
-          input.push(input3+' '+values.innerHTML);
-        } else if(key >42 && key <63) {
-          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(2)').first().text();
-          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
-          input.push(input3+' '+input2+' '+values.innerHTML);
-        } else if(key >62 && key <83) {
-          input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(3)').first().text();
-          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
-          input.push(input3+' '+input2+' '+values.innerHTML);
-        } else if(key == 83) {
-          input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
-          input.push(input3+' '+values.innerHTML);
+          input2 = $('#RSONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
+          input.push(input2+' '+values.innerHTML);
         }
       });
       input.forEach( function (values,key) {
@@ -235,7 +222,8 @@
         $('#stat2').append($('<option>', { value : key }).text(values));
         $('#stat4').append($('<option>', { value : key }).text(values));
       });
-      var table = $('#PLONOFF').DataTable( {
+      var table = $('#RSONOFF').DataTable( {
+            columnDefs: [{ class: 'columnlong', targets: 0 }],
             scrollY:        "400px",
             scrollX:        true,
             scrollCollapse: true,
@@ -245,7 +233,7 @@
             },
             // Table Heat Map
             drawCallback: function () {
-              $('#PLONOFF tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+              $('#RSONOFF tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
             },
 
             initComplete: function () {
@@ -322,7 +310,7 @@
           if(index3.includes(key.toString())===false){
             dummy.push(values);
             if (
-              values == 'PLAYER' ||
+              values == 'ROSTER' ||
               values == 'CODE' ){
               i = i+1;
               return true;}
@@ -330,17 +318,17 @@
             i = i+1;
           }
         });
-        $('#PLONOFF tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        $('#RSONOFF tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
       });
 
       //column color scale
       var index4 = $('#stat4').val() || [];
       $('#stat4').on("change", function() {
-        $('#PLONOFF tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        $('#RSONOFF tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
         index4 = $('#stat4').val() || [];
         index4.forEach( function (values,key) {
           values = parseInt(values,10)+1;
-          $("#PLONOFF tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
+          $("#RSONOFF tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
         });
       });
 

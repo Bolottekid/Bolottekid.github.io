@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IBL 2024 player season stats</title>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jQuery-3.6.0.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../DataTables/jquery.dataTables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="../DataTables/fixedColumns.dataTables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="../DataTables/select2.min.css"/>
+  <title>IBL 2024 player REGULAR game stats</title>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/jQuery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../DataTables/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../../DataTables/fixedColumns.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../../DataTables/select2.min.css"/>
   <style>
     h1 {text-align: center;}
     th, td { white-space: nowrap; }
@@ -19,14 +19,14 @@
       border: solid 4px white;
     }
   </style>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
-  <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/select2.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/dataTables.fixedColumns.min.js"></script>
+  <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/select2.min.js"></script>
 
 
 </head>
 <body>
-  <h1>IBL 2024 player season stats</h1>
+  <h1>IBL 2024 player REGULAR game stats</h1>
   <div id="container2">
     <div class="filter">
       <table class="inputs">
@@ -195,32 +195,32 @@
   }(jQuery));
 
   $(document).ready(function() {
-    $('#container').load('BoxscorePLSEASON.html', function() {
-      $('#BOXPLSEASON').append('<tfoot><tr></tr></tfoot>');
-      $('#BOXPLSEASON thead th').clone().appendTo($("#BOXPLSEASON tfoot tr")) ;
-      $('#BOXPLSEASON thead th').each( function (key,values) {
-        if (key>1){$('#stat3').append($('<option>', { value : key }).text(values.innerHTML));}
-        if (key<5){return true;}
+    $('#container').load('BoxscorePLGAME.html', function() {
+      $('#BOXPLGAME').append('<tfoot><tr></tr></tfoot>');
+      $('#BOXPLGAME thead th').clone().appendTo($("#BOXPLGAME tfoot tr")) ;
+      $('#BOXPLGAME thead th').each( function (key,values) {
+        if (key>0){$('#stat3').append($('<option>', { value : key }).text(values.innerHTML));}
+        if (key<9){return true;}
         $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat4').append($('<option>', { value : key }).text(values.innerHTML));
       });
-      var table = $('#BOXPLSEASON').DataTable( {
+      var table = $('#BOXPLGAME').DataTable( {
             scrollY:        "400px",
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns: {
-              leftColumns:2,
+              leftColumns:1,
               rightColumns:0
             },
             // Table Heat Map
             drawCallback: function () {
-              $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+              $('#BOXPLGAME tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
             },
 
             initComplete: function () {
               count = 0;
-              this.api().columns([0,1,2,3]).every( function () {
+              this.api().columns([0,1,2,3,4,5,6,7]).every( function () {
                 var title = this.header();
                 //replace spaces with dashes
                 title = $(title).html().replace(/[\W]/g, '-');
@@ -286,27 +286,31 @@
         table.columns(index3).visible(true);
         index3 = $('#stat3').val() || [];
         table.columns(index3).visible(false);
-        $('#BOXPLSEASON thead th').each( function (key,values) {
+        $('#BOXPLGAME thead th').each( function (key,values) {
           values = values.textContent.trim();
           if (
             values == 'PLAYER' ||
             values == 'CODE' ||
             values == 'NO.' ||
             values == 'POS' ||
-            values == 'TEAM' ){return true;}
+            values == 'CODEVS' ||
+            values == 'MDATE' ||
+            values == 'MTIME' ||
+            values == 'MLOC' ||
+            values == 'SEASON' ){return true;}
           $('#stat4').append($('<option>', { value : key }).text(values));
         });
-        $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        $('#BOXPLGAME tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
       });
 
       //column color scale
       var index4 = $('#stat4').val() || [];
       $('#stat4').on("change", function() {
-        $('#BOXPLSEASON tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        $('#BOXPLGAME tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
         index4 = $('#stat4').val() || [];
         index4.forEach( function (values,key) {
           values = parseInt(values,10)+1;
-          $("#BOXPLSEASON tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
+          $("#BOXPLGAME tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
         });
       });
 
