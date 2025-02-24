@@ -18,6 +18,12 @@
       float: left;
       border: solid 4px white;
     }
+    .columnlong {
+      max-width: 100px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: auto;
+    }
   </style>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/jquery.dataTables.min.js"></script>
   <script type="text/javascript" language="javascript" charset="utf8" src="../DataTables/dataTables.fixedColumns.min.js"></script>
@@ -219,7 +225,7 @@
         $('#stat4').append($('<option>', { value : key }).text(values));
       });
       var table = $('#RSONOFF').DataTable( {
-            columnDefs: [{ width: "100px", targets: 0 }],
+            columnDefs: [{ class: 'columnlong', targets: 0 }],
             scrollY:        "400px",
             scrollX:        true,
             scrollCollapse: true,
