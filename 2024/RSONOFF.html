@@ -205,10 +205,10 @@
           input.push(values.innerHTML);
         } else if(key >1 && key <22) {
           input2 = $('#RSONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
-          input.push(input3+' '+values.innerHTML);
+          input.push(input2+' '+values.innerHTML);
         } else if(key >21 && key <42) {
           input2 = $('#RSONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
-          input.push(input3+' '+values.innerHTML);
+          input.push(input2+' '+values.innerHTML);
         }
       });
       input.forEach( function (values,key) {
