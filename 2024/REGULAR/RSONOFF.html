@@ -7,7 +7,24 @@
   <link rel="stylesheet" type="text/css" href="../../DataTables/fixedColumns.dataTables.min.css"/>
   <link rel="stylesheet" type="text/css" href="../../DataTables/select2.min.css"/>
   <style>
-    h1 {text-align: center;}
+  .heading {
+      text-align: center;
+      padding-top:10px;
+      padding-left:10px;
+  }
+  button{
+    width: 70px;
+    height: 30px;
+    padding-left:0px;
+    border-color: grey;
+    float: left;
+    cursor: pointer;
+    color: black;
+    background-color: grey;
+  }
+  h1 {
+      display: inline-block;
+  }
     th, td { white-space: nowrap; }
     div.dataTables_wrapper {
         width: 1000px;
@@ -30,7 +47,10 @@
 
 </head>
 <body>
-  <h1>IBL 2024 roster ON/OFF REGULAR season stats</h1>
+  <heading>
+    <button href="index.html">&#x25C0; <span style="color: white"> Back </span></button>
+    <h1>IBL 2024 player REGULAR season stats</h1>
+  </heading>
   <div id="container2">
     <div class="filter">
       <table class="inputs">
