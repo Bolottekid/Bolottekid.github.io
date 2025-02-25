@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IBL 2024 player PLAYOFF game stats</title>
+  <title>IBL 2024 team CUP game stats</title>
   <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/jQuery-3.6.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../../DataTables/jquery.dataTables.min.css"/>
   <link rel="stylesheet" type="text/css" href="../../DataTables/fixedColumns.dataTables.min.css"/>
@@ -45,7 +45,7 @@
 <body>
   <div class="heading">
     <a href="index.html"><button>&#x25C0; <span style="color: white"> Back </span></button></a>
-    <h1>IBL 2024 player PLAYOFF game stats</h1>
+    <h1>IBL 2024 team CUP game stats</h1>
   </div>
   <div id="container2">
     <div class="filter">
@@ -215,32 +215,32 @@
   }(jQuery));
 
   $(document).ready(function() {
-    $('#container').load('BoxscorePLGAME.html', function() {
-      $('#BOXPLGAME').append('<tfoot><tr></tr></tfoot>');
-      $('#BOXPLGAME thead th').clone().appendTo($("#BOXPLGAME tfoot tr")) ;
-      $('#BOXPLGAME thead th').each( function (key,values) {
-        if (key>0){$('#stat3').append($('<option>', { value : key }).text(values.innerHTML));}
-        if (key<9){return true;}
+    $('#container').load('BoxscoreTMGAME.html', function() {
+      $('#BOXTMGAME').append('<tfoot><tr></tr></tfoot>');
+      $('#BOXTMGAME thead th').clone().appendTo($("#BOXTMGAME tfoot tr")) ;
+      $('#BOXTMGAME thead th').each( function (key,values) {
+        if (key>1){$('#stat3').append($('<option>', { value : key }).text(values.innerHTML));}
+        if (key<6){return true;}
         $('#stat1').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat2').append($('<option>', { value : key }).text(values.innerHTML));
         $('#stat4').append($('<option>', { value : key }).text(values.innerHTML));
       });
-      var table = $('#BOXPLGAME').DataTable( {
+      var table = $('#BOXTMGAME').DataTable( {
             scrollY:        "400px",
             scrollX:        true,
             scrollCollapse: true,
             fixedColumns: {
-              leftColumns:1,
+              leftColumns:2,
               rightColumns:0
             },
             // Table Heat Map
             drawCallback: function () {
-              $('#BOXPLGAME tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+              $('#BOXTMGAME tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
             },
 
             initComplete: function () {
               count = 0;
-              this.api().columns([0,1,2,3,4,5,6,7]).every( function () {
+              this.api().columns([0,1,2,3,4]).every( function () {
                 var title = this.header();
                 //replace spaces with dashes
                 title = $(title).html().replace(/[\W]/g, '-');
@@ -287,13 +287,13 @@
 
       var minEl1 = $('#min1');
       var maxEl1 = $('#max1');
-      var index1 = $('#stat1').find(":selected").val() || 9;
+      var index1 = $('#stat1').find(":selected").val() || 6;
       $('#stat1').on("change", function() {
         index1 = $('#stat1').find(":selected").val();
       });
       var minEl2 = $('#min2');
       var maxEl2 = $('#max2');
-      var index2 = $('#stat2').find(":selected").val() || 9;
+      var index2 = $('#stat2').find(":selected").val() || 6;
       $('#stat2').on("change", function() {
         index2 = $('#stat2').find(":selected").val();
       });
@@ -306,13 +306,10 @@
         table.columns(index3).visible(true);
         index3 = $('#stat3').val() || [];
         table.columns(index3).visible(false);
-        $('#BOXPLGAME thead th').each( function (key,values) {
+        $('#BOXTMGAME thead th').each( function (key,values) {
           values = values.textContent.trim();
           if (
-            values == 'PLAYER' ||
             values == 'CODE' ||
-            values == 'NO.' ||
-            values == 'POS' ||
             values == 'CODEVS' ||
             values == 'MDATE' ||
             values == 'MTIME' ||
@@ -320,17 +317,17 @@
             values == 'SEASON' ){return true;}
           $('#stat4').append($('<option>', { value : key }).text(values));
         });
-        $('#BOXPLGAME tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        $('#BOXTMGAME tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
       });
 
       //column color scale
       var index4 = $('#stat4').val() || [];
       $('#stat4').on("change", function() {
-        $('#BOXPLGAME tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        $('#BOXTMGAME tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
         index4 = $('#stat4').val() || [];
         index4.forEach( function (values,key) {
           values = parseInt(values,10)+1;
-          $("#BOXPLGAME tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
+          $("#BOXTMGAME tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
         });
       });
 
