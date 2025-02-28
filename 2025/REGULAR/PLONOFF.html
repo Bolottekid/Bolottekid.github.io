@@ -224,26 +224,26 @@
       $('#PLONOFF thead tr:nth-child(3) th').each( function (key,values) {
         if (key<2) {
           input.push(values.innerHTML);
-        } else if(key >1 && key <22) {
+        } else if(key >1 && key <24) {
           input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(2)').first().text();
           input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
           input.push(input3+' '+input2+' '+values.innerHTML);
-        } else if(key >21 && key <42) {
+        } else if(key >23 && key <46) {
           input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(3)').first().text();
           input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
           input.push(input3+' '+input2+' '+values.innerHTML);
-        } else if(key == 42) {
+        } else if(key == 46 || key == 47) {
           input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
           input.push(input3+' '+values.innerHTML);
-        } else if(key >42 && key <63) {
+        } else if(key >47 && key <70) {
           input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(2)').first().text();
           input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
           input.push(input3+' '+input2+' '+values.innerHTML);
-        } else if(key >62 && key <83) {
+        } else if(key >69 && key <92) {
           input2 = $('#PLONOFF thead tr:nth-child(2) th:nth-child(3)').first().text();
           input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
           input.push(input3+' '+input2+' '+values.innerHTML);
-        } else if(key == 83) {
+        } else if(key == 92 || key == 93) {
           input3 = $('#PLONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
           input.push(input3+' '+values.innerHTML);
         }

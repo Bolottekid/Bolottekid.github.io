@@ -225,12 +225,12 @@
       var input = [];
       var input2;
       $('#RSONOFF thead tr:nth-child(2) th').each( function (key,values) {
-        if (key<2 || key === 42) {
+        if (key<2 || key === 46) {
           input.push(values.innerHTML);
-        } else if(key >1 && key <22) {
+        } else if(key >1 && key <24) {
           input2 = $('#RSONOFF thead tr:nth-child(1) th:nth-child(2)').first().text();
           input.push(input2+' '+values.innerHTML);
-        } else if(key >21 && key <42) {
+        } else if(key >23 && key <46) {
           input2 = $('#RSONOFF thead tr:nth-child(1) th:nth-child(3)').first().text();
           input.push(input2+' '+values.innerHTML);
         }
