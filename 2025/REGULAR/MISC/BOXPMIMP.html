@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IBL 2025 clutch player REGULAR season</title>
+  <title>IBL 2025 playmaker in REGULAR season</title>
   <script type="text/javascript" language="javascript" charset="utf8" src="../../DataTables/jQuery-3.6.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../../DataTables/jquery.dataTables.min.css"/>
   <link rel="stylesheet" type="text/css" href="../../DataTables/fixedColumns.dataTables.min.css"/>
@@ -44,8 +44,8 @@
 </head>
 <body>
   <div class="heading">
-    <a href="index.html"><button>&#x25C0; <span style="color: white"> Back </span></button></a>
-    <h1>IBL 2025 clutch player REGULAR season</h1>
+    <a href="../index.html"><button>&#x25C0; <span style="color: white"> Back </span></button></a>
+    <h1>IBL 2025 playmaker in REGULAR season</h1>
   </div>
   <div id="container2">
     <div class="filter">
@@ -63,6 +63,7 @@
   </div>
   <div id="container">
   </div>
+  <h3>Qualification: >4APG</h3>
   <script type="text/javascript" language="javascript" charset="utf8">
   //jquery colorized
   (function($) {
@@ -177,23 +178,23 @@
   }(jQuery));
 
   $(document).ready(function() {
-    $('#container').load('BoxscoreCLUTCH.html', function() {
-      $('#BOXCLUTCH').append('<tfoot><tr></tr></tfoot>');
-      $('#BOXCLUTCH thead tr:nth-child(2) th').clone().appendTo($("#BOXCLUTCH tfoot tr"));
+    $('#container').load('BoxscorePMIMP.html', function() {
+      $('#BOXPMIMP').append('<tfoot><tr></tr></tfoot>');
+      $('#BOXPMIMP thead tr:nth-child(3) th').clone().appendTo($("#BOXPMIMP tfoot tr"));
       var input = [];
       var input2;
-      $('#BOXCLUTCH thead tr:nth-child(2) th').each( function (key,values) {
-        if (key<3) {
+      var input3;
+      $('#BOXPMIMP thead tr:nth-child(3) th').each( function (key,values) {
+        if (key<8) {
           input.push(values.innerHTML);
-        } else if(key === 3 || key === 4) {
-          input2 = $('#BOXCLUTCH thead tr:nth-child(1) th:nth-child(2)').first().text();
-          input.push(input2+' '+values.innerHTML);
-        } else if(key === 5 || key === 6) {
-          input2 = $('#BOXCLUTCH thead tr:nth-child(1) th:nth-child(3)').first().text();
-          input.push(input2+' '+values.innerHTML);
-        } else if(key === 7 || key === 8) {
-          input2 = $('#BOXCLUTCH thead tr:nth-child(1) th:nth-child(4)').first().text();
-          input.push(input2+' '+values.innerHTML);
+        } else if(key>7 && key<14) {
+          input2 = $('#BOXPMIMP thead tr:nth-child(1) th:nth-child(2)').first().text();
+          input3 = $('#BOXPMIMP thead tr:nth-child(2) th:nth-child(2)').first().text();
+          input.push(input2+' '+input3+' '+values.innerHTML);
+        } else if(key>13) {
+          input2 = $('#BOXPMIMP thead tr:nth-child(1) th:nth-child(3)').first().text();
+          input3 = $('#BOXPMIMP thead tr:nth-child(2) th:nth-child(3)').first().text();
+          input.push(input2+' '+input3+' '+values.innerHTML);
         }
       });
       input.forEach( function (values,key) {
@@ -201,13 +202,13 @@
         $('#stat3').append($('<option>', { value : key }).text(values));
         $('#stat4').append($('<option>', { value : key }).text(values));
       });
-      var table = $('#BOXCLUTCH').DataTable( {
+      var table = $('#BOXPMIMP').DataTable( {
             scrollY:        "400px",
             scrollCollapse: true,
             paging:         false,
             // Table Heat Map
             drawCallback: function () {
-              $('#BOXCLUTCH tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+              $('#BOXPMIMP tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
             },
 
             initComplete: function () {
@@ -279,17 +280,17 @@
             i = i+1;
           }
         });
-        $('#BOXCLUTCH tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        $('#BOXPMIMP tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
       });
 
       //column color scale
       var index4 = $('#stat4').val() || [];
       $('#stat4').on("change", function() {
-        $('#BOXCLUTCH tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
+        $('#BOXPMIMP tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
         index4 = $('#stat4').val() || [];
         index4.forEach( function (values,key) {
           values = parseInt(values,10)+1;
-          $("#BOXCLUTCH tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
+          $("#BOXPMIMP tbody td:nth-child("+(values)+")").colorize().toggleClass('coloured');
         });
       });
 
