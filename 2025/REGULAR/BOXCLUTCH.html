@@ -183,10 +183,16 @@
       var input = [];
       var input2;
       $('#BOXCLUTCH thead tr:nth-child(2) th').each( function (key,values) {
-        if (key<2) {
+        if (key<3) {
           input.push(values.innerHTML);
-        } else {
-          input2 = $('#BOXCLUTCH thead tr:nth-child(1) th').first().text();
+        } else if(key === 3 && key === 4) {
+          input2 = $('#BOXCLUTCH thead tr:nth-child(1) th:nth-child(2)').first().text();
+          input.push(input2+' '+values.innerHTML);
+        } else if(key === 5 && key === 6) {
+          input2 = $('#BOXCLUTCH thead tr:nth-child(1) th:nth-child(3)').first().text();
+          input.push(input2+' '+values.innerHTML);
+        } else if(key === 7 && key === 8) {
+          input2 = $('#BOXCLUTCH thead tr:nth-child(1) th:nth-child(4)').first().text();
           input.push(input2+' '+values.innerHTML);
         }
       });
