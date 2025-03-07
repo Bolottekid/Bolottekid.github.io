@@ -210,7 +210,12 @@
       });
       var table = $('#BOXFBIMP').DataTable( {
             scrollY:        "400px",
+            scrollX:        true,
             scrollCollapse: true,
+            fixedColumns: {
+              leftColumns:2,
+              rightColumns:0
+            },
             paging:         false,
             // Table Heat Map
             drawCallback: function () {
