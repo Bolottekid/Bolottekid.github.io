@@ -182,7 +182,6 @@
       $('#BOXCLUTCH thead tr:nth-child(2) th').clone().appendTo($("#BOXCLUTCH tfoot tr"));
       var input = [];
       var input2;
-      var input3;
       $('#BOXCLUTCH thead tr:nth-child(2) th').each( function (key,values) {
         if (key<2) {
           input.push(values.innerHTML);
@@ -197,13 +196,6 @@
         $('#stat4').append($('<option>', { value : key }).text(values));
       });
       var table = $('#BOXCLUTCH').DataTable( {
-            scrollY:        "400px",
-            scrollX:        true,
-            scrollCollapse: true,
-            fixedColumns: {
-              leftColumns:2,
-              rightColumns:0
-            },
             // Table Heat Map
             drawCallback: function () {
               $('#BOXCLUTCH tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
