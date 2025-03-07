@@ -196,6 +196,8 @@
         $('#stat4').append($('<option>', { value : key }).text(values));
       });
       var table = $('#BOXCLUTCH').DataTable( {
+            scrollX:        true,
+            scrollCollapse: true,
             // Table Heat Map
             drawCallback: function () {
               $('#BOXCLUTCH tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
@@ -256,15 +258,19 @@
         table.columns(index3).visible(true);
         index3 = $('#stat3').val() || [];
         table.columns(index3).visible(false);
-        $('#BOXCLUTCH thead th').each( function (key,values) {
-          values = values.textContent.trim();
-          if (
-            values == 'PLAYER' ||
-            values == 'CODE' ||
-            values == 'NO.' ||
-            values == 'POS' ||
-            values == 'TEAM' ){return true;}
-          $('#stat4').append($('<option>', { value : key }).text(values));
+        var dummy = [];
+        var i = 0;
+        input.forEach( function (values,key) {
+          if(index3.includes(key.toString())===false){
+            dummy.push(values);
+            if (
+              values == 'PLAYER' ||
+              values == 'CODE' ){
+              i = i+1;
+              return true;}
+            $('#stat4').append($('<option>', { value : i }).text(values));
+            i = i+1;
+          }
         });
         $('#BOXCLUTCH tbody td.coloured').css({'background-color': '', 'color': ''}).toggleClass('coloured');
       });
