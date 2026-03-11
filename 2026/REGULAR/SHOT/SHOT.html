@@ -154,7 +154,7 @@
           contours = contoursFunc(shotfilter);
           shot = shotfilter;
           stat1 = "All"
-          chromaticscaledomainMAX = d3.max(contours, d => d.value)/totnum;
+          chromaticscaledomainMAX = d3.max(contours, d => d.value);
         };
 
         // Add title
