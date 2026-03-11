@@ -108,9 +108,6 @@
             .attr("y",y(14))
             .attr("fill", "#E1C16E"); // Set the desired fill color
 
-        // Draw court
-        svg.append("g").call(g => draw_court(g,width,height,margin));
-
         if (stat0 == "Makes") {
           var shotfilter = shotRAW.filter(function(d) {
               return d.MAKE === "1";
@@ -203,6 +200,9 @@
           .join("path")
             .attr("fill", function(d) { return color(d.value);})
             .attr("d", d3.geoPath());
+
+        // Draw court
+        svg.append("g").call(g => draw_court(g,width,height,margin));
 
         // Append dots.
         svg.append("g")

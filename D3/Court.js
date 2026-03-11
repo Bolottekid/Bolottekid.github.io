@@ -55,17 +55,17 @@ function draw_court(court_g,width,height,margin){
 
     CornerThreeLeft
            .attr('x', court_xScale(0.9))
-           .attr('y', court_yScale(Y3)+4)
+           .attr('y', court_yScale(Y3)-4)
            .attr('width', 0.4)
-           .attr('height', court_yScale(0)-court_yScale(Y3)-4)
+           .attr('height', court_yScale(0)-court_yScale(Y3)+4)
            .style('fill', 'none')
            .style('stroke', 'black');
 
     CornerThreeRight
            .attr('x', court_xScale(14.1))
-           .attr('y', court_yScale(Y3)+4)
+           .attr('y', court_yScale(Y3)-4)
            .attr('width', 0.4)
-           .attr('height', court_yScale(0)-court_yScale(Y3)-4)
+           .attr('height', court_yScale(0)-court_yScale(Y3)+4)
            .style('fill', 'none')
            .style('stroke', 'black');
 
