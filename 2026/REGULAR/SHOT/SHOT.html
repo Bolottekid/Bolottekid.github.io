@@ -157,37 +157,6 @@
           chromaticscaledomainMAX = d3.max(contours, d => d.value);
         };
 
-        // Add title
-        svg.append("text")
-            .attr("x", x(7.5)) // Set the x position
-            .attr("y", y(14.5)) // Set the y position (y coordinate typically defines the bottom-left corner)
-            .attr("text-anchor", "middle")
-            .style("font-size", "20px")
-            .style("fill", "white")
-            .style("font-weight", "bold")
-            .text(stat1+"'s "+stat0);
-
-        // Append the axes. {will not be needed}
-        /*svg.append("g")
-            .attr("transform", `translate(0,${height - margin.Bottom})`)
-            .call(d3.axisBottom(x).tickSizeOuter(0))
-            .call(g => g.select(".domain").remove())
-            .call(g => g.select(".tick:last-of-type text").clone()
-              .attr("y", -3)
-              .attr("dy", null)
-              .attr("font-weight", "bold")
-              .text(stat0));
-
-        svg.append("g")
-          .attr("transform", `translate(${margin.Left},0)`)
-          .call(d3.axisLeft(y).tickSizeOuter(0))
-          .call(g => g.select(".domain").remove())
-          .call(g => g.select(".tick:last-of-type text").clone()
-              .attr("x", 3)
-              .attr("text-anchor", "start")
-              .attr("font-weight", "bold")
-              .text(stat1));*/
-
         // Append the contours.
         var color = d3.scaleSequential(d3.interpolateOrRd)
                               .domain([0, chromaticscaledomainMAX]);
@@ -201,14 +170,34 @@
             .attr("fill", function(d) { return color(d.value);})
             .attr("d", d3.geoPath());
 
+
+        // Add title
+        svg.append("text")
+            .attr("x", x(7.5)) // Set the x position
+            .attr("y", y(14.5)) // Set the y position (y coordinate typically defines the bottom-left corner)
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            .style("fill", "white")
+            .style("font-weight", "bold")
+            .text(stat1+"'s "+stat0);
+
         // Draw court
         svg.append("g").call(g => draw_court(g,width,height,margin));
 
         // Append dots.
         svg.append("g")
-            .attr("stroke", "white")
+            .attr("stroke", "green")
           .selectAll()
-          .data(shot)
+          .data(shot.filter(function(d){ return d.MAKE === "1" }))
+          .join("circle")
+            .attr("cx", d => x(d.Y))
+            .attr("cy", d => y(d.X))
+            .attr("r", 2);
+
+        svg.append("g")
+            .attr("stroke", "red")
+          .selectAll()
+          .data(shot.filter(function(d){ return d.MAKE === "0" }))
           .join("circle")
             .attr("cx", d => x(d.Y))
             .attr("cy", d => y(d.X))
