@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <script src="../../../D3/d3.v7.min.js"></script>
+    <script src="../../../D3/d3-legend.min.js"></script>
+    <script src="../../../D3/d3-contour.v1.min.js"></script>
+    <script src="../../../D3/d3-scale-chromatic.v1.min.js"></script>
+    <script src="../../../D3/d3-hexbin.min.js"></script>
+    <script src="../../../D3/filter.js"></script>
+    <script src="../../../D3/Court.js"></script>
+    <script src="../../../D3/DrawHexbin.js"></script>
+    <title>IBL 2026 player REGULAR season shotchart</title>
+    <style>
+    div.filter {
+      display: inline-block;
+      float: left;
+      border: solid 4px white;
+    }
+    .container {
+      display: flex;
+    }
+    </style>
+  </head>
+  <body>
+    <style>
+    </style>
+    <div class='container'>
+      <div class="filter">
+        <button onclick="Plot()">Plot</button>
+      </div>
+      <div class="filter">
+        <label for="stat">Team or Player:</label>
+        <select name="stat" id="stat" size="1" onchange="Typefilter(this)">
+          <option>Filter</option>
+          <option value="Team">Team</option>
+          <option value="TeamVS">TeamVS</option>
+          <option value="Player">Player</option>
+        </select>
+      </div>
+      <div class="filter">
+        <label for="stat1">Chose:</label>
+        <select name="stat1" id="stat1" size="1">
+          <option>Filter</option>
+        </select>
+      </div>
+    </div>
+    <div style="text-align: center;" id='place'>
+    </div>
+    <script>
+    function Plot() {
+      var oldplot = document.getElementById("place");
+      if (oldplot) {
+        oldplot.innerHTML = "";
+      };
+      const stat = document.getElementById("stat").value;
+      var stat1 = document.getElementById("stat1").value;
+      if (stat1=='Filter') {
+        var printerror = document.getElementById("place");
+        printerror.append("Please choose filter");
+        return;
+      };
+      //console.log(stat)
+      d3.csv("shotchart.dat").then(function(shotRAW) {
+        // Specify the dimensions of the chart.
+        const width = 690;
+        const height = 620;
+        const margin = { Left: 30, Right: 30, Top: 50, Bottom: 30 };
+
+        // Create the horizontal and vertical scales.
+        const x = d3.scaleLinear()
+            .domain([0,15])
+            //.domain(d3.extent(shot, d => d.Y)).nice()
+            .rangeRound([margin.Left, width - margin.Right]);
+
+        const y = d3.scaleLinear()
+            .domain([0,14])
+            .rangeRound([height - margin.Bottom, margin.Top]);
+
+        // Create the SVG container.
+        const svg = d3.select("#place").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("viewBox", [0, 0, width, height])
+            .attr("style", "max-width: 100%; height: auto; background-color: SaddleBrown");
+
+        // 2. Append a <rect> as the first child to serve as the background
+        svg.append("rect")
+            .attr("width", width-margin.Right-margin.Left)
+            .attr("height", height-margin.Top-margin.Bottom)
+            .attr("x",x(0))
+            .attr("y",y(14))
+            .attr("fill", "#E1C16E"); // Set the desired fill color
+
+        // Bin the data.
+        const hexbin = d3.hexbin()
+          .x(d => x(d.Y))
+          .y(d => y(d.X))
+          .radius(20)
+          .extent([[margin.Left, margin.Top], [width - margin.Right, height - margin.Bottom]]);
+
+        // Filter to each player/team
+        if (stat == "Team") {
+          var shot = shotRAW.filter(function(d) {
+              return d.CODE === stat1;
+          });
+        } else if (stat == "TeamVS") {
+          var shot = shotRAW.filter(function(d) {
+              return d.CODEVS === stat1;
+          });
+          stat1 = "VS " + stat1;
+        } else if (stat == "Player") {
+          var shot = shotRAW.filter(function(d) {
+              return d.PLAYER === stat1;
+          });
+        };
+        // if selected All
+        if (shot.length ==0) {
+          shot = shotRAW;
+          stat1 = "All"
+        };
+
+        const finalData = nestrollup(shot);
+        const finalDataALL = nestrollup(shotRAW);
+        //console.log(finalData);
+
+        svg.call(g => DrawHexbin(finalData,hexbin,g,finalDataALL,stat));
+
+        svg.append()
+
+        // Add title
+        svg.append("text")
+            .attr("x", x(7.5)) // Set the x position
+            .attr("y", y(14.5)) // Set the y position (y coordinate typically defines the bottom-left corner)
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            .style("fill", "white")
+            .style("font-weight", "bold")
+            .text(stat1+"'s shotchart");
+
+        // Draw court
+        svg.append("g").call(g => draw_court(g,width,height,margin));
+
+        return svg.node();
+      });
+    };
+    </script>
+  </body>
+</html>
