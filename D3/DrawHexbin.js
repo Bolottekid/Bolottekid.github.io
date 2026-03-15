@@ -27,9 +27,9 @@ function nestrollup(shot) {
   return finalData;
 };
 
-function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat) {
+function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat,totnum) {
   const bins = hexbin(finalData);
-  const binsALL = hexbin(finalData);
+  const binsALL = hexbin(finalDataALL);
   // average of Z per bin
   bins.forEach((item, i) => {
     item.Zavg = d3.sum(item, d=>d.MAKE)/d3.sum(item, d=>d.ATTEMPT)
@@ -54,8 +54,16 @@ function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat) {
   //const color = d3.scaleDiverging([0,0.5,d3.mean(binsALL, d => d.Zavg),1.5,3], d3.interpolateRdBu)
 
   // Create the radius scale.
-  const r = d3.scaleSqrt()
-      .domain([1, d3.max(binsALL, d => d.Size)])
+  var a;
+  if (stat == "Player") {
+    a = 7;
+  } else {
+    a = 1;
+  };
+  const maxHexsize = d3.max(binsALL, d => d.Size/totnum)*a;
+  const minHexsize = 1;
+  const r = d3.scaleLinear()
+      .domain([minHexsize, maxHexsize])
       .range([hexbin.radius()/2.5, hexbin.radius()]);
 
   // Append the scaled hexagons.
@@ -147,10 +155,10 @@ function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat) {
     .data(color.range())
     .enter().append("path")
       .attr("transform", function (d,i) {
-        radius += 2*r(i/5*(d3.max(binsALL, data => data.Size)-1));
-        return "translate("+((Xsize-6.5*hexbin.radius()/2)+radius-r(i/5*(d3.max(binsALL, data => data.Size)-1)))+",115)";
+        radius += 2*r(i/5*(maxHexsize-1));
+        return "translate("+((Xsize-6.5*hexbin.radius()/2)+radius-r(i/5*(maxHexsize-minHexsize)))+",115)";
       })
-      .attr("d", (d,i) => hexbin.hexagon(r(i/5*(d3.max(binsALL, d => d.Size)-1))))
+      .attr("d", (d,i) => hexbin.hexagon(r(i/5*maxHexsize-minHexsize)))
       //.attr("d", hexbin.hexagon())
       .attr("fill", "grey");
   // Label for size scale
@@ -169,22 +177,22 @@ function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat) {
     .style("font-size", "16px")
     .style("fill", "black")
     .style("font-weight", "bold")
-    .text("League average: "+d3.mean(binsALL, d => d.Size).toFixed(1));
+    .text("middle size: "+(0.5*(maxHexsize-minHexsize)).toFixed(0));
   svg.append("text")
     .attr("x", (Xsize-6.5*hexbin.radius()/2)-15) // Set the x position
     .attr("y", 120) // Set the y position (y coordinate typically defines the bottom-left corner)
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
-    .style("fill", color(0))
+    .style("fill", "black")
     .style("font-weight", "bold")
-    .text("1");
+    .text(minHexsize.toFixed(0));
   svg.append("text")
-    .attr("x", (Xsize+6.5*hexbin.radius()/2)+20) // Set the x position
+    .attr("x", (Xsize+6.5*hexbin.radius()/2)+15) // Set the x position
     .attr("y", 120) // Set the y position (y coordinate typically defines the bottom-left corner)
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
-    .style("fill", color(3))
+    .style("fill", "black")
     .style("font-weight", "bold")
-    .text(d3.max(binsALL, d => d.Size));
+    .text(maxHexsize.toFixed(0));
 
 };

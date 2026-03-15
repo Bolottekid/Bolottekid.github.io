@@ -115,6 +115,13 @@
           });
         };
         // if selected All
+        var totnum;
+        const stat1select = document.querySelector('#stat1').querySelectorAll('option');
+        stat1select.forEach((d) => {
+          if (d.textContent == "All") {
+            totnum = +d.value;
+          };
+        });
         if (shot.length ==0) {
           shot = shotRAW;
           stat1 = "All"
@@ -124,7 +131,7 @@
         const finalDataALL = nestrollup(shotRAW);
         //console.log(finalData);
 
-        svg.call(g => DrawHexbin(finalData,hexbin,g,finalDataALL,stat));
+        svg.call(g => DrawHexbin(finalData,hexbin,g,finalDataALL,stat,totnum));
 
         svg.append()
 
