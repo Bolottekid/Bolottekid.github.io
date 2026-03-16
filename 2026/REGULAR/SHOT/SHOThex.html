@@ -16,9 +16,12 @@
       display: inline-block;
       float: left;
       border: solid 4px white;
+      margin-right: 20px;
     }
     .container {
       display: flex;
+      text-align: center;
+      justify-content: center; /* Centers horizontally */
     }
     </style>
   </head>
@@ -27,10 +30,7 @@
     </style>
     <div class='container'>
       <div class="filter">
-        <button onclick="Plot()">Plot</button>
-      </div>
-      <div class="filter">
-        <label for="stat">Team or Player:</label>
+        <label for="stat" style="display: block; margin-bottom: 5px;">Team or Player:</label>
         <select name="stat" id="stat" size="1" onchange="Typefilter(this)">
           <option>Filter</option>
           <option value="Team">Team</option>
@@ -39,15 +39,33 @@
         </select>
       </div>
       <div class="filter">
-        <label for="stat1">Chose:</label>
+        <label for="stat1" style="display: block; margin-bottom: 5px;">Chose:</label>
         <select name="stat1" id="stat1" size="1">
           <option>Filter</option>
         </select>
       </div>
+      <div class="filter">
+        <label for="Radius" style="margin-bottom: 5px;">Radius:</label>
+        <output for="Radius" style="margin-bottom: 5px;" id="RadiusDisplay">20</output>
+        <input type="range" id="Radius" name="Radius" min="10" max="30" value="20" style="display:block">
+      </div>
+      <div class="filter">
+        <button onclick="Plot()">Plot</button>
+      </div>
     </div>
-    <div style="text-align: center;" id='place'>
+    <div style="text-align: center; margin-top: 20px" id='place'>
     </div>
     <script>
+    const slider = document.getElementById("Radius");
+    const slideroutput = document.getElementById("RadiusDisplay");
+
+    // Display the default slider value on page load
+    slideroutput.innerHTML = slider.value;
+
+    // Update the output value every time the slider is dragged
+    slider.addEventListener("input", function() {
+      slideroutput.innerHTML = this.value;
+    });
     function Plot() {
       var oldplot = document.getElementById("place");
       if (oldplot) {
@@ -93,10 +111,12 @@
             .attr("fill", "#E1C16E"); // Set the desired fill color
 
         // Bin the data.
+        //console.log(slider.value);
+        const radius = slider.value
         const hexbin = d3.hexbin()
           .x(d => x(d.Y))
           .y(d => y(d.X))
-          .radius(20)
+          .radius(radius)
           .extent([[margin.Left, margin.Top], [width - margin.Right, height - margin.Bottom]]);
 
         // Filter to each player/team
@@ -125,13 +145,14 @@
         if (shot.length ==0) {
           shot = shotRAW;
           stat1 = "All"
+          totnum = 1
         };
 
         const finalData = nestrollup(shot);
         const finalDataALL = nestrollup(shotRAW);
         //console.log(finalData);
 
-        svg.call(g => DrawHexbin(finalData,hexbin,g,finalDataALL,stat,totnum));
+        svg.call(g => DrawHexbin(finalData,hexbin,g,finalDataALL,stat,stat1,totnum));
 
         svg.append()
 

@@ -27,7 +27,7 @@ function nestrollup(shot) {
   return finalData;
 };
 
-function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat,totnum) {
+function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat,stat1,totnum) {
   const bins = hexbin(finalData);
   const binsALL = hexbin(finalDataALL);
   // average of Z per bin
@@ -56,15 +56,25 @@ function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat,totnum) {
   // Create the radius scale.
   var a;
   if (stat == "Player") {
-    a = 7;
+    a = 7.5;
   } else {
-    a = 1;
+    a = 1.1;
   };
-  const maxHexsize = d3.max(binsALL, d => d.Size/totnum)*a;
+  if (stat1 == "All") {
+    a = 1
+  };
+
   const minHexsize = 1;
-  const r = d3.scaleLinear()
-      .domain([minHexsize, maxHexsize])
-      .range([hexbin.radius()/2.5, hexbin.radius()]);
+  var maxHexsize = d3.max(binsALL, d => d.Size/totnum)*a;
+  var maxHexsize1 = d3.max(bins, d => d.Size);
+  var r = d3.scaleLinear()
+      .domain([minHexsize, maxHexsize, maxHexsize1])
+      .range([hexbin.radius()/2.5, hexbin.radius(), hexbin.radius()*1.1]);
+  if (maxHexsize > maxHexsize1) {
+    r = d3.scaleLinear()
+        .domain([minHexsize, maxHexsize])
+        .range([hexbin.radius()/2.5, hexbin.radius()]);
+  };
 
   // Append the scaled hexagons.
   svg.append("g")
@@ -136,15 +146,15 @@ function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat,totnum) {
     .text("3.0");
 
   // Legend box left for size scale
-  const Xsize = 135;
-  const Wsize = 200;
+  const Xsize = 150;
+  const Wsize = 230;
   svg.append("rect")
       .attr("x",Xsize-Wsize/2)
       .attr("y",55)
       .style("fill","white")
       .style("opacity","0.3")
       .attr('width', Wsize)
-      .attr('height', 80)
+      .attr('height', 90)
       .style("stroke","black");
   // Hexbin for size scale
   var radius = 0;
@@ -155,10 +165,10 @@ function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat,totnum) {
     .data(color.range())
     .enter().append("path")
       .attr("transform", function (d,i) {
-        radius += 2*r(i/5*(maxHexsize-1));
-        return "translate("+((Xsize-6.5*hexbin.radius()/2)+radius-r(i/5*(maxHexsize-minHexsize)))+",115)";
+        radius += 2*r((i+1)/5*(maxHexsize-minHexsize)+minHexsize);
+        return "translate("+((Xsize-7.5*hexbin.radius()/2)+radius-r((i+1)/5*(maxHexsize-minHexsize)+minHexsize))+",120)";
       })
-      .attr("d", (d,i) => hexbin.hexagon(r(i/5*maxHexsize-minHexsize)))
+      .attr("d", (d,i) => hexbin.hexagon(r((i+1)/5*(maxHexsize-minHexsize)+minHexsize)))
       //.attr("d", hexbin.hexagon())
       .attr("fill", "grey");
   // Label for size scale
@@ -177,18 +187,18 @@ function DrawHexbin(finalData,hexbin,svg,finalDataALL,stat,totnum) {
     .style("font-size", "16px")
     .style("fill", "black")
     .style("font-weight", "bold")
-    .text("middle size: "+(0.5*(maxHexsize-minHexsize)).toFixed(0));
+    .text("middle size: "+(0.5*(maxHexsize-minHexsize)+minHexsize).toFixed(0));
   svg.append("text")
-    .attr("x", (Xsize-6.5*hexbin.radius()/2)-15) // Set the x position
-    .attr("y", 120) // Set the y position (y coordinate typically defines the bottom-left corner)
+    .attr("x", (Xsize-7.5*hexbin.radius()/2)-15) // Set the x position
+    .attr("y", 125) // Set the y position (y coordinate typically defines the bottom-left corner)
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
     .style("fill", "black")
     .style("font-weight", "bold")
     .text(minHexsize.toFixed(0));
   svg.append("text")
-    .attr("x", (Xsize+6.5*hexbin.radius()/2)+15) // Set the x position
-    .attr("y", 120) // Set the y position (y coordinate typically defines the bottom-left corner)
+    .attr("x", (Xsize+7.5*hexbin.radius()/2)+15) // Set the x position
+    .attr("y", 125) // Set the y position (y coordinate typically defines the bottom-left corner)
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
     .style("fill", "black")
