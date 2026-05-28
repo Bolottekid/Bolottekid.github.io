@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <script src="../../../D3/d3.v7.min.js"></script>
+    <script src="../../../D3/d3-legend.min.js"></script>
+    <script src="../../../D3/d3-contour.v1.min.js"></script>
+    <script src="../../../D3/d3-scale-chromatic.v1.min.js"></script>
+    <script src="../../../D3/filter.js"></script>
+    <script src="../../../D3/Court.js"></script>
+    <title>IBL 2026 player PLAYOFF season shotchart</title>
+    <style>
+    div.filter {
+      display: inline-block;
+      float: left;
+      border: solid 4px white;
+    }
+    .container {
+      display: flex;
+    }
+    </style>
+  </head>
+  <body>
+    <style>
+    </style>
+    <div class='container'>
+      <div class="filter">
+        <button onclick="Plot()">Plot</button>
+      </div>
+      <div class="filter">
+        <label for="stat0">Type:</label>
+        <select name="stat0" id="stat0" size="1">
+          <option>Filter</option>
+          <option value="Makes">Makes</option>
+          <option value="Misses">Misses</option>
+          <option value="Attempts">Attempts</option>
+        </select>
+      </div>
+      <div class="filter">
+        <label for="stat">Team or Player:</label>
+        <select name="stat" id="stat" size="1" onchange="Typefilter(this)">
+          <option>Filter</option>
+          <option value="Team">Team</option>
+          <option value="TeamVS">TeamVS</option>
+          <option value="Player">Player</option>
+        </select>
+      </div>
+      <div class="filter">
+        <label for="stat1">Chose:</label>
+        <select name="stat1" id="stat1" size="1">
+          <option>Filter</option>
+        </select>
+      </div>
+    </div>
+    <div style="text-align: center;" id='place'>
+    </div>
+    <script>
+    function Plot() {
+      var oldplot = document.getElementById("place");
+      if (oldplot) {
+        oldplot.innerHTML = "";
+      };
+      const stat = document.getElementById("stat").value;
+      const stat0 = document.getElementById("stat0").value;
+      var stat1 = document.getElementById("stat1").value;
+      if ((stat1=='Filter')||(stat0=='Filter')) {
+        var printerror = document.getElementById("place");
+        printerror.append("Please choose filter");
+        return;
+      };
+      //console.log(stat)
+      d3.csv("shotchart.dat").then(function(shotRAW) {
+        // Specify the dimensions of the chart.
+        const width = 690;
+        const height = 620;
+        const margin = { Left: 30, Right: 30, Top: 50, Bottom: 30 };
+
+        // Create the horizontal and vertical scales.
+        const x = d3.scaleLinear()
+            .domain([0,15])
+            //.domain(d3.extent(shot, d => d.Y)).nice()
+            .rangeRound([margin.Left, width - margin.Right]);
+
+        const y = d3.scaleLinear()
+            .domain([0,14])
+            .rangeRound([height - margin.Bottom, margin.Top]);
+
+        // Compute the density contours.
+        const contoursFunc = d3.contourDensity()
+            .x(d => x(d.Y))
+            .y(d => y(d.X))
+            .size([width, height])
+            .bandwidth(30)
+            .thresholds(50);
+
+        // Create the SVG container.
+        const svg = d3.select("#place").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("viewBox", [0, 0, width, height])
+            .attr("style", "max-width: 100%; height: auto; background-color: SaddleBrown");
+
+        // 2. Append a <rect> as the first child to serve as the background
+        svg.append("rect")
+            .attr("width", width-margin.Right-margin.Left)
+            .attr("height", height-margin.Top-margin.Bottom)
+            .attr("x",x(0))
+            .attr("y",y(14))
+            .attr("fill", "#E1C16E"); // Set the desired fill color
+
+        if (stat0 == "Makes") {
+          var shotfilter = shotRAW.filter(function(d) {
+              return d.MAKE === "1";
+          });
+        } else if (stat0 == "Misses") {
+          var shotfilter = shotRAW.filter(function(d) {
+              return d.MAKE === "0";
+          });
+        } else if (stat0 == "Attempts") {
+          var shotfilter = shotRAW;
+        };
+        //console.log(shotfilter);
+
+        if (stat == "Team") {
+          var shot = shotfilter.filter(function(d) {
+              return d.CODE === stat1;
+          });
+        } else if (stat == "TeamVS") {
+          var shot = shotfilter.filter(function(d) {
+              return d.CODEVS === stat1;
+          });
+          stat1 = "VS " + stat1;
+        } else if (stat == "Player") {
+          var shot = shotfilter.filter(function(d) {
+              return d.PLAYER === stat1;
+          });
+        };
+        //console.log(shot);
+
+        var contours;
+        var chromaticscaledomainMAX;
+        const stat1select = document.querySelector('#stat1').querySelectorAll('option');
+        var totnum;
+        stat1select.forEach((d) => {
+          if (d.textContent == "All") {
+            totnum = +d.value;
+          };
+        });
+        if (shot.length !=0) {
+          contours = contoursFunc(shot);
+          const contoursAll = contoursFunc(shotfilter);
+          chromaticscaledomainMAX = d3.max(contoursAll, d => d.value)/totnum;
+        } else {
+          contours = contoursFunc(shotfilter);
+          shot = shotfilter;
+          stat1 = "All"
+          chromaticscaledomainMAX = d3.max(contours, d => d.value);
+        };
+
+        // Append the contours.
+        var color = d3.scaleSequential(d3.interpolateOrRd)
+                              .domain([0, chromaticscaledomainMAX]);
+        svg.append("g")
+            .attr("stroke", "#000")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-width", 0)
+          .selectAll()
+          .data(contours)
+          .join("path")
+            .attr("fill", function(d) { return color(d.value);})
+            .attr("d", d3.geoPath());
+
+
+        // Add title
+        svg.append("text")
+            .attr("x", x(7.5)) // Set the x position
+            .attr("y", y(14.5)) // Set the y position (y coordinate typically defines the bottom-left corner)
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            .style("fill", "white")
+            .style("font-weight", "bold")
+            .text(stat1+"'s "+stat0);
+
+        // Draw court
+        svg.append("g").call(g => draw_court(g,width,height,margin));
+
+        // Append dots.
+        svg.append("g")
+            .attr("stroke", "green")
+          .selectAll()
+          .data(shot.filter(function(d){ return d.MAKE === "1" }))
+          .join("circle")
+            .attr("cx", d => x(d.Y))
+            .attr("cy", d => y(d.X))
+            .attr("r", 2);
+
+        svg.append("g")
+            .attr("stroke", "red")
+          .selectAll()
+          .data(shot.filter(function(d){ return d.MAKE === "0" }))
+          .join("circle")
+            .attr("cx", d => x(d.Y))
+            .attr("cy", d => y(d.X))
+            .attr("r", 2);
+
+        return svg.node();
+      });
+    };
+    </script>
+  </body>
+</html>
